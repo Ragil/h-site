@@ -1,0 +1,6 @@
+h-client/node_modules/*
+h-client/components/*
+h-client/target*
+h-client/.project
+h-client/.settings/*
+.metadata
