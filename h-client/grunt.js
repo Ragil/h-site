@@ -1,32 +1,86 @@
 module.exports = function(grunt) {
 
+    var localDir = 'target/local/';
+    var distDir = 'target/dist/';
+    
     // Project configuration.
     grunt.initConfig({
         lint : {
-            all : [ 'grunt.js', 'lib/**/*.js', 'test/**/*.js' ]
+            all : [ 'grunt.js', 'src/**/*.js', 'src/**/**/*.js',
+                    'components/require/require.js',
+                    'components/requirejs-text.js' ]
         },
+
         jshint : {
             options : {
-                browser : true
+                browser : true,
+                laxbreak : true,
+                curly : true,
+                eqeqeq : true,
+                immed : true,
+                latedef : true,
+                newcap : true,
+                noarg : true,
+                sub : true,
+                boss : true,
+                eqnull : true
+            },
+            globals : {
+                jquery : true
             }
         },
-        min : {
+
+        requirejs : {
+            local : {
+                options : {
+                    include : 'config.js',
+                    baseUrl : 'src/main/',
+                    mainConfigFile : 'src/main/config.js',
+                    out : localDir + 'optimized.js',
+                    optimize : 'none'
+                }
+            },
             dist : {
-                src : [ 'src/main/js/**',
-                        'components/backbone/backbone.js',
-                        'components/jquery/jquery.js',
-                        'components/require/require.js'],
-                dest : 'target/dist/client.js'
+                options : {
+                    include : 'config.js',
+                    baseUrl : 'src/main/',
+                    mainConfigFile : 'src/main/config.js',
+                    out : distDir + 'optimized.js'
+                }
             }
         },
+
+        less : {
+            local : {
+                options : {
+                    paths : [ 'src/main/view/', 'components/bootstrap/less/' ]
+                },
+                files : {
+                    'target/local/optimized.css' : 'src/main/view/MainView.less'
+                }
+            },
+            dist : {
+                options : {
+                    paths : [ 'src/main/view/', 'components/bootstrap/less/' ],
+                    compress : true
+                },
+                files : {
+                    'target/dist/optimized.css' : 'src/main/view/MainView.less'
+                }
+            }
+        },
+
         mocha : {
             index : [ 'src/test/index.html' ]
         }
     });
 
+    grunt.loadNpmTasks('grunt-contrib-less');
+    grunt.loadNpmTasks('grunt-requirejs');
     grunt.loadNpmTasks('grunt-mocha');
 
     // Default task.
-    grunt.registerTask('default', 'lint min');
+    grunt.registerTask('local', 'lint requirejs:local less:local');
+    grunt.registerTask('default', 'lint requirejs:dist less:dist');
     grunt.registerTask('test', 'lint mocha');
 };

@@ -1,17 +1,17 @@
 require.config({
-    baseUrl : 'src/main/js/',
+    baseUrl : 'src/main/',
     deps : [ 'main' ],
     paths : {
 
-        test : '../../../src/test/js',
+        test : '../test',
 
         // external libs
-        jquery : "../../../components/jquery/jquery",
-        underscore : "../../../components/underscore/underscore",
-        backbone : "../../../components/backbone/backbone",
-        text : "../../../components/requirejs-text/text",
-        mocha : "../../../components/mocha/mocha",
-        expect : "../../../components/expect/expect",
+        jquery : "../../components/jquery/jquery",
+        underscore : "../../components/underscore/underscore",
+        backbone : "../../components/backbone/backbone",
+        text : "../../components/requirejs-text/text",
+        mocha : "../../components/mocha/mocha",
+        expect : "../../components/expect/expect",
 
         // frequently used components
         eventBus : "util/eventBus",
