@@ -1,0 +1,8 @@
+{
+    "name": "h-client",
+    "version": "0.0.1",
+    "dependencies": {
+        "grunt-mocha": "~0.1.7",
+        "grunt-contrib": "0.3.0"
+    }
+}
