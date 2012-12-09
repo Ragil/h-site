@@ -9,13 +9,18 @@ require.config({
         jquery : "../../components/jquery/jquery",
         underscore : "../../components/underscore/underscore",
         backbone : "../../components/backbone/backbone",
+        bootstrap : "../../components/bootstrap/docs/assets/js/bootstrap",
         text : "../../components/requirejs-text/text",
         mocha : "../../components/mocha/mocha",
         expect : "../../components/expect/expect",
+        sinon : "../../components/sinon/sinon",
 
         // frequently used components
         eventBus : "util/eventBus",
-        check : 'util/check'
+        check : 'util/check',
+
+        // services
+        videoService : 'thrift/videoService'
     },
 
     shim : {

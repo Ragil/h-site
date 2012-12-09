@@ -11,8 +11,6 @@
 		type="text/javascript" charset="utf-8"></script>
 	<script src="../../components/mocha/mocha.js" type="text/javascript"
 		charset="utf-8"></script>
-	<script src="../../components/sinon/sinon.js" type="text/javascrispt"
-		charset="utf-8"></script>
 	<script src="../../components/expect/expect.js" type="text/javascript"
 		charset="utf-8"></script>
 
@@ -28,8 +26,11 @@
             // ignore jquery global leak
             globals : [ 'jQuery*' ]
         });
-        require([ 'test/util/check.spec', 'test/view/app/AppView.spec' ],
-                runMocha);
+        require([ 'test/util/check.spec', 'test/view/app/AppView.spec',
+                'test/view/videos/VideoCollection.spec',
+                'test/view/videos/VideoModel.spec',
+                'test/view/videos/VideosView.spec',
+                'test/view/videos/VideoView.spec' ], runMocha);
     </script>
 	<div id="mocha"></div>
 </body>
