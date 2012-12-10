@@ -3,21 +3,19 @@
 <head>
 <meta charset="utf-8">
 <title></title>
-<link rel="stylesheet" href="../../components/mocha/mocha.css"
-	type="text/css" media="screen" title="no title" charset="utf-8">
+<link rel="stylesheet" href="../../components/mocha/mocha.css" type="text/css"
+    media="screen" title="no title" charset="utf-8">
 </head>
 <body>
-	<script src="../../components/require/require.js"
-		type="text/javascript" charset="utf-8"></script>
-	<script src="../../components/mocha/mocha.js" type="text/javascript"
-		charset="utf-8"></script>
-	<script src="../../components/expect/expect.js" type="text/javascript"
-		charset="utf-8"></script>
-
-	<!-- Common config -->
-	<script src="../main/config.js" type="text/javascript" charset="utf-8"></script>
-
-	<script type="text/javascript" charset="utf-8">
+    <script src="../../components/require/require.js" type="text/javascript"
+        charset="utf-8"></script>
+    <script src="../../components/mocha/mocha.js" type="text/javascript"
+        charset="utf-8"></script>
+    <script src="../../components/expect/expect.js" type="text/javascript"
+        charset="utf-8"></script>
+    <!-- Common config -->
+    <script src="../main/config.js" type="text/javascript" charset="utf-8"></script>
+    <script type="text/javascript" charset="utf-8">
         require.config({
             baseUrl : '../main/'
         })
@@ -26,12 +24,18 @@
             // ignore jquery global leak
             globals : [ 'jQuery*' ]
         });
-        require([ 'test/util/check.spec', 'test/view/app/AppView.spec',
+        require([ 'test/util/check.spec',
+                'test/view/app/AppView.spec',
                 'test/view/videos/VideoCollection.spec',
                 'test/view/videos/VideoModel.spec',
                 'test/view/videos/VideosView.spec',
-                'test/view/videos/VideoView.spec' ], runMocha);
+                'test/view/videos/VideoView.spec',
+                'test/view/activity/ActivityCollection.spec',
+                'test/view/activity/ActivityModel.spec',
+                'test/view/activity/ActivitiesView.spec',
+                'test/view/activity/ActivityView.spec'],
+                runMocha);
     </script>
-	<div id="mocha"></div>
+    <div id="mocha"></div>
 </body>
 </html>

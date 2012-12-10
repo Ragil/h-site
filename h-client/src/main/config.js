@@ -20,7 +20,8 @@ require.config({
         check : 'util/check',
 
         // services
-        videoService : 'thrift/videoService'
+        videoService : 'thrift/videoService',
+        activityService : 'thrift/activityService'
     },
 
     shim : {
