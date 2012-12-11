@@ -1,17 +1,26 @@
 .appView {
-    
+
+    position : fixed;
+    height : 100%;
+    width : 100%;
+    .gradient(#EBEBEB, #999999, #000000);
+
     @headerHeight : 40px;
     @videosHeight : 360px;
     @whitespace : 20px;
 
     .header {
-        height: @headerHeight;
+        height : @headerHeight;
     }
 
     .videos {
-        height: @videosHeight;
-        overflow: hidden;
-        margin-top: @whitespace;
+        padding-top : @whitespace;
+        height : @videosHeight + 20;
+        overflow : hidden;
+    }
+
+    .activities {
+        height : 100%;
     }
 
 }

@@ -9,6 +9,7 @@ define(function(require) {
     var check = require('check');
     var HeaderView = require('view/header/HeaderView');
     var VideosView = require('view/videos/VideosView');
+    var ActivitiesView = require('view/activity/ActivitiesView');
 
     var template = require('text!view/app/AppView.html');
     var _instance = null;
@@ -21,18 +22,14 @@ define(function(require) {
             check(options).strict().isObject();
             check(options.headerView).strict().isOfType(HeaderView);
             check(options.videosView).strict().isOfType(VideosView);
+            check(options.activitiesView).strict().isOfType(ActivitiesView);
 
             this.$el.html(_.template(template, {}));
-
-            var headerView = options.headerView;
-            var videosView = options.videosView;
             var $el = this.$el;
 
-            var $header = $el.find('.header');
-            $header.append(headerView.$el);
-
-            var $videos = $el.find('.videos');
-            $videos.append(videosView.$el);
+            $el.find('.header').append(options.headerView.$el);
+            $el.find('.videos').append(options.videosView.$el);
+            $el.find('.activities').append(options.activitiesView.$el);
         },
 
         remove : function() {
@@ -42,7 +39,8 @@ define(function(require) {
         getInstance : function() {
             _instance = _instance || new AppView({
                 headerView : HeaderView.getInstance(),
-                videosView : VideosView.getInstance()
+                videosView : VideosView.getInstance(),
+                activitiesView : ActivitiesView.getInstance()
             });
             return _instance;
         }

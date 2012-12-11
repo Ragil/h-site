@@ -53,7 +53,8 @@ module.exports = function(grunt) {
         less : {
             local : {
                 options : {
-                    paths : [ 'src/main/view/', 'components/bootstrap/less/' ]
+                    paths : [ 'src/main/view/', 'components/bootstrap/less/',
+                              'components/less-elements/']
                 },
                 files : {
                     'target/local/optimized.css' : 'src/main/view/MainView.less'

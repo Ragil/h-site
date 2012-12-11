@@ -28,6 +28,185 @@ define(function(require) {
 
         });
 
+        describe('render', function() {
+
+            describe('new video uploaded', function() {
+
+                it('should render Husky Cast', function() {
+                    // create model that video uploaded
+                    var model = new ActivityModel({
+                        type : 1,
+                        description : 'WhiteRa mothership rushed Husky'
+                    });
+
+                    // create view
+                    var view = new ActivityView({
+                        model : model
+                    });
+
+                    // verify type and description
+                    expect(view.$el.find('.type').text()).to.be('Husky Cast');
+                    expect(view.$el.find('.description').text()).to
+                            .be('WhiteRa mothership rushed Husky');
+
+                    // clean up
+                    view.remove();
+                });
+
+                it('should highlight the row green', function() {
+                    // create model that video uploaded
+                    var model = new ActivityModel({
+                        type : 1
+                    });
+
+                    // create view
+                    var view = new ActivityView({
+                        model : model
+                    });
+
+                    // verify green highlighting
+                    expect(view.$el.hasClass('success')).to.be(true);
+                    expect(view.$el.hasClass('info')).to.be(false);
+                    expect(view.$el.hasClass('warning')).to.be(false);
+                    expect(view.$el.hasClass('error')).to.be(false);
+                });
+
+            });
+
+            describe('new user joined', function() {
+
+                it('should render Friend Joined', function() {
+                    // create model of a new user joining
+                    var model = new ActivityModel({
+                        type : 2,
+                        description : 'Say Hi to Kurthugoschneider!'
+                    });
+
+                    // create view
+                    var view = new ActivityView({
+                        model : model
+                    });
+
+                    // verify type and description
+                    expect(view.$el.find('.type').text()).to
+                            .be('Friend Joined');
+                    expect(view.$el.find('.description').text()).to
+                            .be('Say Hi to Kurthugoschneider!');
+
+                    // clean up
+                    view.remove();
+
+                });
+
+                it('should highlight the row blue', function() {
+                    // create model of a new user joining
+                    var model = new ActivityModel({
+                        type : 2
+                    });
+
+                    // create view
+                    var view = new ActivityView({
+                        model : model
+                    });
+
+                    // verify green highlighting
+                    expect(view.$el.hasClass('success')).to.be(false);
+                    expect(view.$el.hasClass('info')).to.be(true);
+                    expect(view.$el.hasClass('warning')).to.be(false);
+                    expect(view.$el.hasClass('error')).to.be(false);
+                });
+
+            });
+
+            describe('new replay uploaded', function() {
+
+                it('should render Sick Replay', function() {
+                    // create model of a new replay upload
+                    var model = new ActivityModel({
+                        type : 3,
+                        description : 'Check out this replay and tell '
+                                + 'us if you want it casted'
+                    });
+
+                    // create view
+                    var view = new ActivityView({
+                        model : model
+                    });
+
+                    // verify type and description
+                    expect(view.$el.find('.type').text()).to.be('Cool Replay');
+                    expect(view.$el.find('.description').text()).to
+                            .be('Check out this replay and tell us if '
+                                    + 'you want it casted');
+
+                    // clean up
+                    view.remove();
+                });
+
+                it('should not highlight the row', function() {
+                    // create model of a new replay upload
+                    var model = new ActivityModel({
+                        type : 3
+                    });
+
+                    // create view
+                    var view = new ActivityView({
+                        model : model
+                    });
+
+                    // verify green highlighting
+                    expect(view.$el.hasClass('success')).to.be(false);
+                    expect(view.$el.hasClass('info')).to.be(false);
+                    expect(view.$el.hasClass('warning')).to.be(false);
+                    expect(view.$el.hasClass('error')).to.be(false);
+                });
+
+            });
+
+            describe('new post', function() {
+
+                it('should render Chatting', function() {
+                    // create model of a new replay upload
+                    var model = new ActivityModel({
+                        type : 4,
+                        description : 'Blah blah blah blah'
+                    });
+
+                    // create view
+                    var view = new ActivityView({
+                        model : model
+                    });
+
+                    // verify type and description
+                    expect(view.$el.find('.type').text()).to.be('Chatting');
+                    expect(view.$el.find('.description').text()).to
+                            .be('Blah blah blah blah');
+
+                    // clean up
+                    view.remove();
+                });
+
+                it('should not highlight the row', function() {
+                    // create model of a new replay upload
+                    var model = new ActivityModel({
+                        type : 3
+                    });
+
+                    // create view
+                    var view = new ActivityView({
+                        model : model
+                    });
+
+                    // verify green highlighting
+                    expect(view.$el.hasClass('success')).to.be(false);
+                    expect(view.$el.hasClass('info')).to.be(false);
+                    expect(view.$el.hasClass('warning')).to.be(false);
+                    expect(view.$el.hasClass('error')).to.be(false);
+                });
+
+            });
+        });
+
     });
 
 });
