@@ -62,7 +62,8 @@ module.exports = function(grunt) {
             },
             dist : {
                 options : {
-                    paths : [ 'src/main/view/', 'components/bootstrap/less/' ],
+                    paths : [ 'src/main/view/', 'components/bootstrap/less/',
+                              'components/less-elements'],
                     compress : true
                 },
                 files : {
@@ -71,11 +72,18 @@ module.exports = function(grunt) {
             }
         },
 
+        thrift: {
+            files : ['src/main/thrift/ActivityService.thrift'],
+            languages : ['js'],
+            out : 'src/main/thrift'
+        },
+        
         mocha : {
             index : [ 'src/test/index.html' ]
         }
     });
 
+    grunt.loadTasks('grunt-lib');
     grunt.loadNpmTasks('grunt-contrib-less');
     grunt.loadNpmTasks('grunt-requirejs');
     grunt.loadNpmTasks('grunt-mocha');
@@ -83,5 +91,5 @@ module.exports = function(grunt) {
     // Default task.
     grunt.registerTask('local', 'lint requirejs:local less:local');
     grunt.registerTask('default', 'lint requirejs:dist less:dist');
-    grunt.registerTask('test', 'lint mocha');
+    grunt.registerTask('test', 'lint thrift mocha');
 };

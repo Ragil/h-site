@@ -1,0 +1,29 @@
+/*
+ * Services to retrieve activity data.
+ * @author Ragil Prasetya - praser05@gmail.com
+ */
+
+enum ActivityType {
+    // next number 5
+
+    NEW_VIDEO = 1,
+    NEW_USER = 2,
+    NEW_REPLAY = 3,
+    NEW_POST = 4
+}
+
+struct Activity {
+    // next number 3
+
+    1: optional ActivityType type;
+    2: optional string description; 
+}
+
+service ActivityService {
+
+    /*
+     * Returns a list of activities ordered by the most recent first.
+     */
+    list<Activity> getLatestActivities(); 
+
+}

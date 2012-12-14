@@ -3,4 +3,5 @@ h-client/components/*
 h-client/target*
 h-client/.project
 h-client/.settings/*
+h-client/src/main/thrift/gen*
 .metadata
