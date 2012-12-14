@@ -6,7 +6,12 @@ module.exports = function(grunt) {
     // Project configuration.
     grunt.initConfig({
         lint : {
-            all : [ 'grunt.js', 'src/**/*.js', 'src/**/**/*.js',
+            all : [ 'grunt.js',
+                    'src/main/*.js', 'src/test/service/*.js',
+                    'src/test/util/*.js',
+                    'src/test/view/*.js',
+                    'src/test/view/**/*.js',
+                    'src/test/*.js', 'src/test/**/*.js',
                     'components/require/require.js',
                     'components/requirejs-text.js' ]
         },
@@ -73,7 +78,8 @@ module.exports = function(grunt) {
         },
 
         thrift: {
-            files : ['src/main/thrift/ActivityService.thrift'],
+            files : ['src/main/thrift/ActivityService.thrift',
+                     'src/main/thrift/VideoService.thrift'],
             languages : ['js'],
             out : 'src/main/thrift'
         },
@@ -89,7 +95,7 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-mocha');
 
     // Default task.
-    grunt.registerTask('local', 'lint requirejs:local less:local');
-    grunt.registerTask('default', 'lint requirejs:dist less:dist');
-    grunt.registerTask('test', 'lint thrift mocha');
+    grunt.registerTask('local', 'thrift lint requirejs:local less:local');
+    grunt.registerTask('default', 'thrift lint requirejs:dist less:dist');
+    grunt.registerTask('test', 'thrift lint mocha');
 };

@@ -1,6 +1,7 @@
 define(function(require) {
 
     require('sinon');
+    require('thrift/ActivityService_types');
     var activityService = require('activityService');
     var ActivityModel = require('view/activity/ActivityModel');
 
@@ -12,10 +13,10 @@ define(function(require) {
                 // stub on rpc call
                 var spy = sinon.stub(activityService, 'getActivity', function(
                         id, success, error) {
-                    success({
+                    success(new Activity({
                         id : id,
                         created_ts : 1
-                    });
+                    }));
                 });
 
                 // create model and trigger fetch

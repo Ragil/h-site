@@ -6,6 +6,7 @@
  */
 define(function(require) {
 
+    require('thrift/ActivityService_types');
     var _ = require('underscore');
     var Backbone = require('backbone');
     var check = require('check');
@@ -40,16 +41,16 @@ define(function(require) {
              * Post] description : String
              */
             switch (this.model.get('type')) {
-            case 1:
+            case ActivityType.NEW_VIDEO:
                 this.renderNewVideo();
                 break;
-            case 2:
+            case ActivityType.NEW_USER:
                 this.renderNewUser();
                 break;
-            case 3:
+            case ActivityType.NEW_REPLAY:
                 this.renderNewReplay();
                 break;
-            case 4:
+            case ActivityType.NEW_POST:
                 this.renderNewPost();
                 break;
             }

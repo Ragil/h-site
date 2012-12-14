@@ -5,6 +5,7 @@
  */
 define(function(require) {
 
+    require('thrift/ActivityService_types');
     var $ = require('jquery');
     require('sinon');
     var activityService = require('activityService');
@@ -64,16 +65,16 @@ define(function(require) {
             it('should create an ActivityView for each model', function() {
 
                 // create two models
-                var activity1 = new ActivityModel({
-                    type : 1,
+                var activity1 = new ActivityModel(new Activity({
+                    type : ActivityType.NEW_VIDEO,
                     description : 'video uploaded',
                     created_ts : 2
-                });
-                var activity2 = new ActivityModel({
-                    type : 2,
+                }));
+                var activity2 = new ActivityModel(new Activity({
+                    type : ActivityType.NEW_USER,
                     description : 'new user',
                     created_ts : 1
-                });
+                }));
 
                 // create expected views
                 var view1 = new ActivityView({
@@ -119,11 +120,11 @@ define(function(require) {
                         .be(0);
 
                 // add model to the collection
-                collection.add(new ActivityModel({
-                    type : 2,
+                collection.add(new ActivityModel(new Activity({
+                    type : ActivityType.NEW_USER,
                     description : 'new user',
                     created_ts : 1
-                }));
+                })));
 
                 // verify that one view is added
                 expect(collectionView.$('.activities').children().length).to

@@ -1,5 +1,6 @@
 define(function(require) {
 
+    require('thrift/ActivityService_types');
     var Backbone = require('backbone');
     var check = require('check');
     var videoClient = require('videoService');
@@ -24,6 +25,15 @@ define(function(require) {
             };
             // make a thrift call
             videoClient.getVideo(this.get('id'), onSuccess, onError);
+        },
+
+        parse : function(tVideoModel) {
+            check(tVideoModel).strict().isOfType(YoutubeVideo);
+
+            return {
+                id : tVideoModel.id,
+                created_ts : tVideoModel.created_ts
+            };
         }
 
     });

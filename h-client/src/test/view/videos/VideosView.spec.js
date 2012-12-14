@@ -1,5 +1,6 @@
 define(function(require) {
 
+    require('thrift/VideoService_types');
     require('sinon');
     var VideosView = require('view/videos/VideosView');
     var VideoView = require('view/videos/VideoView');
@@ -39,14 +40,14 @@ define(function(require) {
             it('should generate one VideoView per VideoModel', function() {
 
                 // create 2 VideoModels
-                var video1 = new VideoModel({
+                var video1 = new VideoModel(new YoutubeVideo({
                     id : 'video1',
                     created_ts : 2
-                });
-                var video2 = new VideoModel({
+                }));
+                var video2 = new VideoModel(new YoutubeVideo({
                     id : 'video2',
                     created_ts : 1
-                });
+                }));
 
                 // create a collection consisting of two videos
                 var collection = new VideoCollection();
@@ -81,14 +82,14 @@ define(function(require) {
             it('should make the first view active', function() {
                 // create collection
                 var collection = new VideoCollection();
-                collection.add(new VideoModel({
+                collection.add(new VideoModel(new YoutubeVideo({
                     id : 'video1',
                     created_ts : 2
-                }));
-                collection.add(new VideoModel({
+                })));
+                collection.add(new VideoModel(new YoutubeVideo({
                     id : 'video2',
                     created_ts : 1
-                }));
+                })));
 
                 // create view
                 var videosView = new VideosView({
@@ -103,14 +104,14 @@ define(function(require) {
             it('should NOT make the second view active', function() {
                 // create collection
                 var collection = new VideoCollection();
-                collection.add(new VideoModel({
+                collection.add(new VideoModel(new YoutubeVideo({
                     id : 'video1',
                     created_ts : 2
-                }));
-                collection.add(new VideoModel({
+                })));
+                collection.add(new VideoModel(new YoutubeVideo({
                     id : 'video2',
                     created_ts : 1
-                }));
+                })));
 
                 // create view
                 var videosView = new VideosView({

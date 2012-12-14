@@ -13,10 +13,12 @@ enum ActivityType {
 }
 
 struct Activity {
-    // next number 3
+    // next number 5
 
-    1: optional ActivityType type;
-    2: optional string description; 
+    1: optional string id;
+    2: optional i64 created_ts;
+    3: optional ActivityType type;
+    4: optional string description; 
 }
 
 service ActivityService {

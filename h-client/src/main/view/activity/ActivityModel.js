@@ -5,6 +5,7 @@
  */
 define(function(require) {
 
+    var check = require('check');
     var activityService = require('activityService');
     var Backbone = require('backbone');
 
@@ -24,6 +25,18 @@ define(function(require) {
 
             // make thrift rpc call
             activityService.getActivity(model.get('id'), success, error);
+        },
+
+        parse : function(tActivity) {
+            check(tActivity).strict().isOfType(Activity);
+
+            // convert to pure json model
+            return {
+                id : tActivity.id,
+                created_ts : tActivity.created_ts,
+                type : tActivity.type,
+                description : tActivity.description
+            };
         }
 
     });

@@ -5,6 +5,7 @@
  */
 define(function(require) {
 
+    require('thrift/ActivityService_types');
     var ActivityModel = require('view/activity/ActivityModel');
     var ActivityView = require('view/activity/ActivityView');
 
@@ -34,10 +35,10 @@ define(function(require) {
 
                 it('should render Husky Cast', function() {
                     // create model that video uploaded
-                    var model = new ActivityModel({
-                        type : 1,
+                    var model = new ActivityModel(new Activity({
+                        type : ActivityType.NEW_VIDEO,
                         description : 'WhiteRa mothership rushed Husky'
-                    });
+                    }));
 
                     // create view
                     var view = new ActivityView({
@@ -55,9 +56,9 @@ define(function(require) {
 
                 it('should highlight the row green', function() {
                     // create model that video uploaded
-                    var model = new ActivityModel({
-                        type : 1
-                    });
+                    var model = new ActivityModel(new Activity({
+                        type : ActivityType.NEW_VIDEO
+                    }));
 
                     // create view
                     var view = new ActivityView({
@@ -77,10 +78,10 @@ define(function(require) {
 
                 it('should render Friend Joined', function() {
                     // create model of a new user joining
-                    var model = new ActivityModel({
-                        type : 2,
+                    var model = new ActivityModel(new Activity({
+                        type : ActivityType.NEW_USER,
                         description : 'Say Hi to Kurthugoschneider!'
-                    });
+                    }));
 
                     // create view
                     var view = new ActivityView({
@@ -100,9 +101,9 @@ define(function(require) {
 
                 it('should highlight the row blue', function() {
                     // create model of a new user joining
-                    var model = new ActivityModel({
-                        type : 2
-                    });
+                    var model = new ActivityModel(new Activity({
+                        type : ActivityType.NEW_USER
+                    }));
 
                     // create view
                     var view = new ActivityView({
@@ -122,11 +123,11 @@ define(function(require) {
 
                 it('should render Sick Replay', function() {
                     // create model of a new replay upload
-                    var model = new ActivityModel({
-                        type : 3,
+                    var model = new ActivityModel(new Activity({
+                        type : ActivityType.NEW_REPLAY,
                         description : 'Check out this replay and tell '
                                 + 'us if you want it casted'
-                    });
+                    }));
 
                     // create view
                     var view = new ActivityView({
@@ -145,9 +146,9 @@ define(function(require) {
 
                 it('should not highlight the row', function() {
                     // create model of a new replay upload
-                    var model = new ActivityModel({
-                        type : 3
-                    });
+                    var model = new ActivityModel(new Activity({
+                        type : ActivityType.NEW_REPLAY
+                    }));
 
                     // create view
                     var view = new ActivityView({
@@ -167,10 +168,10 @@ define(function(require) {
 
                 it('should render Chatting', function() {
                     // create model of a new replay upload
-                    var model = new ActivityModel({
-                        type : 4,
+                    var model = new ActivityModel(new Activity({
+                        type : ActivityType.NEW_POST,
                         description : 'Blah blah blah blah'
-                    });
+                    }));
 
                     // create view
                     var view = new ActivityView({
@@ -188,9 +189,9 @@ define(function(require) {
 
                 it('should not highlight the row', function() {
                     // create model of a new replay upload
-                    var model = new ActivityModel({
-                        type : 3
-                    });
+                    var model = new ActivityModel(new Activity({
+                        type : ActivityType.NEW_POST
+                    }));
 
                     // create view
                     var view = new ActivityView({

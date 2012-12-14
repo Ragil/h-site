@@ -1,6 +1,7 @@
 define(function(require) {
 
     require('sinon');
+    require('thrift/ActivityService_types');
     var activityService = require('activityService');
     var ActivityCollection = require('view/activity/ActivityCollection');
     var ActivityModel = require('view/activity/ActivityModel');
@@ -54,17 +55,17 @@ define(function(require) {
                 var spy = sinon.stub(activityService, 'getLatestActivities',
                         function(success, error) {
                             // return a fake response with two activities
-                            success([ {
+                            success([ new Activity({
                                 id : 'activity1',
                                 created_ts : 2,
-                                title : 'title1',
+                                type : ActivityType.NEW_VIDEO,
                                 description : 'desc1'
-                            }, {
+                            }), new Activity({
                                 id : 'activity2',
                                 created_ts : 1,
-                                title : 'title2',
+                                type : ActivityType.NEW_USER,
                                 description : 'desc2'
-                            } ]);
+                            }) ]);
                         });
                 expect(spy.callCount).to.be(0);
 
@@ -82,14 +83,14 @@ define(function(require) {
                 var firstActivity = collection.at(0);
                 expect(firstActivity.get('id')).to.be('activity1');
                 expect(firstActivity.get('created_ts')).to.be(2);
-                expect(firstActivity.get('title')).to.be('title1');
+                expect(firstActivity.get('type')).to.be(ActivityType.NEW_VIDEO);
                 expect(firstActivity.get('description')).to.be('desc1');
 
                 // verify second ActivityModel
                 var secondActivity = collection.at(1);
                 expect(secondActivity.get('id')).to.be('activity2');
                 expect(secondActivity.get('created_ts')).to.be(1);
-                expect(secondActivity.get('title')).to.be('title2');
+                expect(secondActivity.get('type')).to.be(ActivityType.NEW_USER);
                 expect(secondActivity.get('description')).to.be('desc2');
 
                 // clean up
@@ -102,14 +103,14 @@ define(function(require) {
 
             it('should order by latest activity first', function() {
                 // create two activities
-                var firstActivity = new ActivityModel({
+                var firstActivity = new ActivityModel(new Activity({
                     id : 'activity1',
                     created_ts : 1
-                });
-                var secondActivity = new ActivityModel({
+                }));
+                var secondActivity = new ActivityModel(new Activity({
                     id : 'activity2',
                     created_ts : 2
-                });
+                }));
 
                 // create the collection
                 var collection = new ActivityCollection();

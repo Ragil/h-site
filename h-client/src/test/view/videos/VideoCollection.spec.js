@@ -1,6 +1,7 @@
 define(function(require) {
 
     require('sinon');
+    require('thrift/VideoService_types');
     var check = require('check');
     var videoService = require('videoService');
     var VideoCollection = require('view/videos/VideoCollection');
@@ -62,13 +63,13 @@ define(function(require) {
                 // spy on getLatestVideos
                 var spy = sinon.stub(videoService, 'getLatestVideos', function(
                         success, error) {
-                    success([ {
+                    success([ new YoutubeVideo({
                         id : 'video1',
                         created_ts : 2
-                    }, {
+                    }), new YoutubeVideo({
                         id : 'video2',
                         created_ts : 1
-                    } ]);
+                    }) ]);
                 });
 
                 // trigger a fetch
@@ -100,14 +101,14 @@ define(function(require) {
             it('should order models by most recent first', function() {
 
                 // create two models
-                var model1 = new VideoModel({
+                var model1 = new VideoModel(new YoutubeVideo({
                     id : 'video1',
                     created_ts : 1
-                });
-                var model2 = new VideoModel({
+                }));
+                var model2 = new VideoModel(new YoutubeVideo({
                     id : 'video2',
                     created_ts : 2
-                });
+                }));
 
                 // create collection
                 var collection = new VideoCollection();

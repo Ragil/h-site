@@ -3,6 +3,7 @@ require.config({
     deps : [ 'main' ],
     paths : {
 
+        thrift : 'thrift/gen-js',
         test : '../test',
 
         // external libs
@@ -21,7 +22,8 @@ require.config({
 
         // services
         videoService : 'service/videoService',
-        activityService : 'service/activityService'
+        activityService : 'service/activityService',
+        replayService : 'service/replayService'
     },
 
     shim : {

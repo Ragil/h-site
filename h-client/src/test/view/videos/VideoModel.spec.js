@@ -6,6 +6,7 @@
 define(function(require) {
 
     require('sinon');
+    require('thrift/VideoService_types');
     var videoService = require('videoService');
     var VideoModel = require('view/videos/VideoModel');
 
@@ -27,10 +28,10 @@ define(function(require) {
                     expect(error).to.be.a('function');
 
                     // return a fake model
-                    success({
+                    success(new YoutubeVideo({
                         id : 'videoID',
                         created_ts : 2
-                    });
+                    }));
                 });
 
                 // trigger

@@ -5,6 +5,7 @@
  */
 define(function(require) {
 
+    require('thrift/VideoService_types');
     var VideoView = require('view/videos/VideoView');
     var VideoModel = require('view/videos/VideoModel');
 
@@ -31,9 +32,9 @@ define(function(require) {
 
             it('should change the src to the videoid', function() {
                 // create the model
-                var model = new VideoModel({
+                var model = new VideoModel(new YoutubeVideo({
                     id : 'videoId'
-                });
+                }));
 
                 // create the view
                 var view = new VideoView({
