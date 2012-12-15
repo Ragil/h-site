@@ -85,19 +85,33 @@ module.exports = function(grunt) {
             languages : ['js'],
             out : 'src/main/thrift'
         },
-        
+
         mocha : {
             index : [ 'src/test/index.html' ]
+        },
+
+        copy : {
+            local : {
+                files : {
+                    '../h-server/war/dist/' : ['target/local/**']
+                }
+            },
+            dist : {
+                files : {
+                    '../h-server/war/dist/' : ['target/dist/**']
+                }
+            }
         }
     });
 
     grunt.loadTasks('grunt-lib');
+    grunt.loadNpmTasks('grunt-contrib-copy');
     grunt.loadNpmTasks('grunt-contrib-less');
     grunt.loadNpmTasks('grunt-requirejs');
     grunt.loadNpmTasks('grunt-mocha');
 
     // Default task.
-    grunt.registerTask('local', 'thrift lint mocha requirejs:local less:local');
-    grunt.registerTask('default', 'thrift lint mocha requirejs:dist less:dist');
+    grunt.registerTask('local', 'thrift lint mocha requirejs:local less:local copy:local');
+    grunt.registerTask('default', 'thrift lint mocha requirejs:dist less:dist copy:dist');
     grunt.registerTask('test', 'thrift lint mocha');
 };

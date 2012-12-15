@@ -6,3 +6,5 @@ h-client/.settings/*
 h-client/src/main/thrift/gen*
 .metadata
 h-server/war/WEB-INF/lib/*
+h-server/war/WEB-INF/classes/*
+h-server/war/dist/*

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!DOCTYPE urlrewrite
+    PUBLIC "-//tuckey.org//DTD UrlRewrite 4.0//EN"
+    "http://www.tuckey.org/res/dtds/urlrewrite4.0.dtd">
+
+<urlrewrite>
+	<rule>
+		<from>/app/img/(.*)$</from>
+		<to>/dist/img/$1</to>
+	</rule>
+	<rule>
+		<from>/app/(.*)$</from>
+		<to>/dist/index.html</to>
+	</rule>
+	<rule>
+		<from>^(/)?$</from>
+		<to type="redirect">/app/home</to>
+	</rule>
+</urlrewrite>
