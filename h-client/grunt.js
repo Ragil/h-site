@@ -97,7 +97,7 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-mocha');
 
     // Default task.
-    grunt.registerTask('local', 'thrift lint requirejs:local less:local');
-    grunt.registerTask('default', 'thrift lint requirejs:dist less:dist');
+    grunt.registerTask('local', 'thrift lint mocha requirejs:local less:local');
+    grunt.registerTask('default', 'thrift lint mocha requirejs:dist less:dist');
     grunt.registerTask('test', 'thrift lint mocha');
 };

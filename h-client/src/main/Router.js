@@ -16,12 +16,24 @@ define(function(require) {
         },
 
         routes : {
-            '' : 'home' // all
+            '' : 'index',
+            'home' : 'home',
+            'replay' : 'replay'
+        },
+
+        index : function() {
+            Backbone.history.navigate('home', {
+                trigger : true
+            });
         },
 
         home : function() {
             // create home view
             this.mainView.setLayout(HomeView.getInstance());
+        },
+
+        replay : function() {
+            this.mainView.setLayout(ReplayView.getInstance());
         }
 
     });

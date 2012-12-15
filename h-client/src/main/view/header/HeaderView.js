@@ -14,6 +14,11 @@ define(function(require) {
 
     var HeaderView = Backbone.View.extend({
 
+        events : {
+            'click .homeBtn' : 'redirectToHome',
+            'click .replayBtn' : 'redirectToReplay'
+        },
+
         initialize : function(options) {
             var $el = this.$el;
             $el.html(_.template(template, {}));
@@ -21,6 +26,18 @@ define(function(require) {
 
         remove : function() {
             this.$el.remove();
+        },
+
+        redirectToHome : function() {
+            Backbone.history.navigate('home', {
+                trigger : true
+            });
+        },
+
+        redirectToReplay : function() {
+            Backbone.history.navigate('replay', {
+                trigger : true
+            });
         }
 
     }, {
