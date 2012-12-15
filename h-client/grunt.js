@@ -79,7 +79,9 @@ module.exports = function(grunt) {
 
         thrift: {
             files : ['src/main/thrift/ActivityService.thrift',
-                     'src/main/thrift/VideoService.thrift'],
+                     'src/main/thrift/VideoService.thrift',
+                     'src/main/thrift/ReplayService.thrift',
+                     'src/main/thrift/UserService.thrift'],
             languages : ['js'],
             out : 'src/main/thrift'
         },

@@ -11,12 +11,12 @@ define(function(require) {
     var VideosView = require('view/videos/VideosView');
     var ActivitiesView = require('view/activity/ActivitiesView');
 
-    var template = require('text!view/app/AppView.html');
+    var template = require('text!view/home/HomeView.html');
     var _instance = null;
 
-    var AppView = Backbone.View.extend({
+    var HomeView = Backbone.View.extend({
 
-        className : 'appView',
+        className : 'homeView',
 
         initialize : function(options) {
             check(options).strict().isObject();
@@ -37,7 +37,7 @@ define(function(require) {
         }
     }, {
         getInstance : function() {
-            _instance = _instance || new AppView({
+            _instance = _instance || new HomeView({
                 headerView : HeaderView.getInstance(),
                 videosView : VideosView.getInstance(),
                 activitiesView : ActivitiesView.getInstance()
@@ -46,5 +46,5 @@ define(function(require) {
         }
     });
 
-    return AppView;
+    return HomeView;
 });

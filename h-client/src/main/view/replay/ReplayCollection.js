@@ -3,6 +3,9 @@ define(function(require) {
     var check = require('check');
     var Backbone = require('backbone');
     var replayService = require('replayService');
+    var ReplayModel = require('view/replay/ReplayModel');
+
+    var _instance = null;
 
     var ReplayCollection = Backbone.Collection.extend({
         model : ReplayModel,
@@ -26,6 +29,14 @@ define(function(require) {
             replayService.getReplays(success, error);
         }
 
+    }, {
+        getInstance : function() {
+            if (!_instance) {
+                _instance = new ReplayCollection();
+                _instance.fetch();
+            }
+            return _instance;
+        }
     });
 
     return ReplayCollection;

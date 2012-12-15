@@ -1,16 +1,16 @@
 /**
- * Test for AppView.js
+ * Test for HomeView.js
  * 
  * @author Ragil Prasetya - praser05@gmail.coms
  */
 define(function(require) {
 
-    var AppView = require('view/app/AppView');
+    var HomeView = require('view/home/HomeView');
     var HeaderView = require('view/header/HeaderView');
     var VideosView = require('view/videos/VideosView');
     var ActivitiesView = require('view/activity/ActivitiesView');
 
-    describe('AppView', function() {
+    describe('HomeView', function() {
 
         describe('constructor', function() {
 
@@ -20,7 +20,7 @@ define(function(require) {
 
                 // verify
                 expect(function() {
-                    new AppView({
+                    new HomeView({
                         headerView : undefined,
                         videosView : videosView,
                         activitiesView : activitiesView
@@ -38,7 +38,7 @@ define(function(require) {
 
                 // verify
                 expect(function() {
-                    new AppView({
+                    new HomeView({
                         headerView : headerView,
                         videosView : undefined,
                         activitiesView : activitiesView
@@ -56,7 +56,7 @@ define(function(require) {
 
                 // verify
                 expect(function() {
-                    new AppView({
+                    new HomeView({
                         headerView : headerView,
                         videosView : videosView,
                         activitiesView : undefined
@@ -68,31 +68,31 @@ define(function(require) {
                 videosView.remove();
             });
 
-            it('should create a new AppView given required views', function() {
+            it('should create a new HomeView given required views', function() {
                 var videosView = VideosView.getInstance();
                 var headerView = HeaderView.getInstance();
                 var activitiesView = ActivitiesView.getInstance();
 
                 // create view
-                var appView = new AppView({
+                var homeView = new HomeView({
                     headerView : headerView,
                     videosView : videosView,
                     activitiesView : activitiesView
                 });
 
                 // verify contents
-                expect(appView.$('.header').children().html()).to
+                expect(homeView.$('.header').children().html()).to
                         .be(headerView.$el.html());
-                expect(appView.$('.videos').children().html()).to
+                expect(homeView.$('.videos').children().html()).to
                         .be(videosView.$el.html());
-                expect(appView.$('.activities').children().html()).to
+                expect(homeView.$('.activities').children().html()).to
                         .be(activitiesView.$el.html());
 
                 // clean up
                 headerView.remove();
                 videosView.remove();
                 activitiesView.remove();
-                appView.remove();
+                homeView.remove();
             });
 
         });
@@ -100,8 +100,8 @@ define(function(require) {
         describe('getInstance', function() {
 
             it('should return an instance', function() {
-                var view1 = AppView.getInstance();
-                var view2 = AppView.getInstance();
+                var view1 = HomeView.getInstance();
+                var view2 = HomeView.getInstance();
 
                 // verify
                 expect(view1).to.be(view2);

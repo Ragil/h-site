@@ -5,7 +5,7 @@
  */
 define(function(require) {
 
-    var AppView = require('view/app/AppView');
+    var HomeView = require('view/home/HomeView');
     var MainView = require('view/MainView');
     var Backbone = require('backbone');
 
@@ -21,7 +21,7 @@ define(function(require) {
 
         home : function() {
             // create home view
-            this.mainView.setLayout(AppView.getInstance());
+            this.mainView.setLayout(HomeView.getInstance());
         }
 
     });
