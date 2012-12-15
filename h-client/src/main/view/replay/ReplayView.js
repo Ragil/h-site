@@ -1,32 +1,39 @@
+/**
+ * Displays a replay as row entry in the replay table
+ * 
+ * @author Ragil Prasetya - praser05@gmail.com
+ */
 define(function(require) {
 
     var $ = require('jquery');
     var _ = require('underscore');
     var check = require('check');
     var Backbone = require('backbone');
-    var ReplayCollection = require('view/replay/ReplayCollection');
-
-    var _instance = null;
+    var ReplayModel = require('view/replay/ReplayModel');
+    var template = require('text!view/replay/ReplayView.html');
 
     var ReplayView = Backbone.View.extend({
-        tagName : 'div',
-        className : 'replayView',
+        model : ReplayModel,
+        tagName : 'tr',
+        className : 'replay',
 
-        intiialize : function(options) {
-            check(options).isObject();
-            check(options.model).isOfType(ReplayCollection);
-        }
+        initialize : function(options) {
+            check(options).strict().isObject();
+            check(options.model).strict().isOfType(ReplayModel);
 
-    }, {
-        getInstance : function() {
-            if (!_instance) {
-                _instance = new ReplayView({
-                    model : ReplayCollection.getInstance()
-                });
-                _instance.fetch();
-            }
-            return _instance;
+            var model = options.model;
+            this.$el.html(_.template(template, {
+                title : model.get('title'),
+                description : model.get('description'),
+                uploader : model.get('uploader').name,
+                gametype : model.get('gameType')
+            }));
+        },
+
+        remove : function() {
+            this.$el.remove();
         }
     });
 
+    return ReplayView;
 });
