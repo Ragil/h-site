@@ -5,3 +5,4 @@ h-client/.project
 h-client/.settings/*
 h-client/src/main/thrift/gen*
 .metadata
+h-server/war/WEB-INF/lib/*

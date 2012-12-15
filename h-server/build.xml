@@ -1,0 +1,6 @@
+<project name="IvyAnt" basedir="." default="ivy" xmlns:ivy="antlib:org.apache.ivy.ant">
+	<property name="ivy.lib.dir" value="/war/WEB-INF/lib" />
+	<target name="ivy">
+		<ivy:retrieve />
+	</target>
+</project>
