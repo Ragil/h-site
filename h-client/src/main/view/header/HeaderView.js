@@ -32,7 +32,6 @@ define(function(require) {
         },
 
         remove : function() {
-            console.log('header view removed');
             this.$el.remove();
         },
 
