@@ -5,6 +5,11 @@ module.exports = function(grunt) {
     
     // Project configuration.
     grunt.initConfig({
+        clean : {
+            target : 'target/',
+            war : '../h-server/war/dist/'
+        },
+
         lint : {
             all : [ 'grunt.js',
                     'src/main/*.js', 'src/test/service/*.js',
@@ -41,7 +46,7 @@ module.exports = function(grunt) {
                     include : 'config.js',
                     baseUrl : 'src/main/',
                     mainConfigFile : 'src/main/config.js',
-                    out : localDir + 'optimized.js',
+                    out : localDir + 'js/optimized.js',
                     optimize : 'none'
                 }
             },
@@ -50,7 +55,7 @@ module.exports = function(grunt) {
                     include : 'config.js',
                     baseUrl : 'src/main/',
                     mainConfigFile : 'src/main/config.js',
-                    out : distDir + 'optimized.js'
+                    out : distDir + 'js/optimized.js'
                 }
             }
         },
@@ -62,7 +67,7 @@ module.exports = function(grunt) {
                               'components/less-elements/']
                 },
                 files : {
-                    'target/local/optimized.css' : 'src/main/view/MainView.less'
+                    'target/local/css/optimized.css' : 'src/main/view/MainView.less'
                 }
             },
             dist : {
@@ -72,7 +77,7 @@ module.exports = function(grunt) {
                     compress : true
                 },
                 files : {
-                    'target/dist/optimized.css' : 'src/main/view/MainView.less'
+                    'target/dist/css/optimized.css' : 'src/main/view/MainView.less'
                 }
             }
         },
@@ -93,25 +98,29 @@ module.exports = function(grunt) {
         copy : {
             local : {
                 files : {
-                    '../h-server/war/dist/' : ['target/local/**']
+                    '../h-server/war/dist/src/main/' : [ 'src/main/**/*.js',
+                                                         'src/main/*.js' ],
+                    '../h-server/war/dist/css/' : [ 'target/local/css/**' ]
                 }
             },
             dist : {
                 files : {
-                    '../h-server/war/dist/' : ['target/dist/**']
+                    '../h-server/war/dist/css/' : ['target/dist/css/**'],
+                    '../h-server/war/dist/js/' : ['target/dist/js/**']
                 }
             }
         }
     });
 
     grunt.loadTasks('grunt-lib');
+    grunt.loadNpmTasks('grunt-clean');
     grunt.loadNpmTasks('grunt-contrib-copy');
     grunt.loadNpmTasks('grunt-contrib-less');
     grunt.loadNpmTasks('grunt-requirejs');
     grunt.loadNpmTasks('grunt-mocha');
 
     // Default task.
-    grunt.registerTask('local', 'thrift lint mocha requirejs:local less:local copy:local');
-    grunt.registerTask('default', 'thrift lint mocha requirejs:dist less:dist copy:dist');
+    grunt.registerTask('local', 'clean thrift lint mocha less:local copy:local');
+    grunt.registerTask('default', 'clean thrift lint mocha requirejs:dist less:dist copy:dist');
     grunt.registerTask('test', 'thrift lint mocha');
 };
