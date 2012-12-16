@@ -6,6 +6,7 @@
 define(function(require) {
 
     var HomeView = require('view/home/HomeView');
+    var ReplaysView = require('view/replay/ReplaysView');
     var MainView = require('view/MainView');
     var Backbone = require('backbone');
 
@@ -33,7 +34,7 @@ define(function(require) {
         },
 
         replay : function() {
-            this.mainView.setLayout(ReplayView.getInstance());
+            this.mainView.setLayout(ReplaysView.getInstance());
         }
 
     });

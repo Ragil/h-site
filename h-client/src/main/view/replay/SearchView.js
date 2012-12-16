@@ -19,6 +19,8 @@ define(function(require) {
         initialize : function(options) {
             check(options).strict().isObject();
             check(options.model).strict().isOfType(ReplayCollection);
+
+            this.$el.html(_.template(template, {}));
         },
 
         remove : function() {

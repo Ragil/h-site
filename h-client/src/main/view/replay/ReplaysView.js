@@ -24,16 +24,19 @@ define(function(require) {
             check(options.headerView).strict().isOfType(HeaderView);
             check(options.searchView).strict().isOfType(SearchView);
 
+            this.options = options;
             this.$el.html(_.template(template, {}));
             this.$header = this.$el.find('.header');
-            this.$search = this.$el.find('search');
+            this.$search = this.$el.find('.search');
             this.$replays = this.$el.find('.replays');
 
-            this.$header.append(options.headerView.$el.html());
-            this.$search.append(options.searchView.$el.html());
+            this.$header.append(options.headerView.$el);
+            this.$search.append(options.searchView.$el);
 
             options.model.on('change', this.render, this);
             this.render();
+
+            options.headerView.setActiveView(HeaderView.VIEW.REPLAY);
         },
 
         render : function() {
@@ -54,6 +57,7 @@ define(function(require) {
 
         remove : function() {
             this.model.off('change', null, this);
+            this.options.headerView.remove();
             this.$el.remove();
         }
 
@@ -62,7 +66,7 @@ define(function(require) {
             if (!_instance) {
                 _instance = new ReplaysView({
                     model : ReplayCollection.getInstance(),
-                    headerView : HeaderView.getInstance(),
+                    headerView : new HeaderView(),
                     searchView : SearchView.getInstance()
                 });
             }

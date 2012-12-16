@@ -11,8 +11,9 @@ define(function(require) {
         },
 
         setLayout : function(view) {
-            this.$el.children().remove();
+            this.$el.children().detach();
             this.$el.append(view.$el);
+            view.render();
         }
 
     });

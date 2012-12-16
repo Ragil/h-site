@@ -98,9 +98,13 @@ module.exports = function(grunt) {
         copy : {
             local : {
                 files : {
-                    '../h-server/war/dist/src/main/' : [ 'src/main/**/*.js',
-                                                         'src/main/*.js' ],
-                    '../h-server/war/dist/css/' : [ 'target/local/css/**' ]
+                    '../h-server/war/dist/js/src/main/' : [ 'src/main/**/*.js',
+                                                            'src/main/*.js',
+                                                            'src/main/**/*.html',
+                                                         '  src/main/*.html'],
+                    '../h-server/war/dist/css/' : [ 'target/local/css/**' ],
+                    '../h-server/war/dist/js/components/' : [ 'components/**' ],
+                    '../h-server/war/dist/index.html' : [ 'local-index.html' ]
                 }
             },
             dist : {

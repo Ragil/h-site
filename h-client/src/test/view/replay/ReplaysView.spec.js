@@ -123,8 +123,8 @@ define(function(require) {
                 });
 
                 // verify contents
-                expect(view.$('.header').html()).to.be(headerView.$el.html());
-                expect(view.$('.search').html()).to.be(searchView.$el.html());
+                expect(view.$('.header').children().html()).to.be(headerView.$el.html());
+                expect(view.$('.search').children().html()).to.be(searchView.$el.html());
 
                 // clean up
                 headerView.remove();

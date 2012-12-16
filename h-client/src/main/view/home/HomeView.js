@@ -24,21 +24,25 @@ define(function(require) {
             check(options.videosView).strict().isOfType(VideosView);
             check(options.activitiesView).strict().isOfType(ActivitiesView);
 
+            this.options = options;
             this.$el.html(_.template(template, {}));
             var $el = this.$el;
 
             $el.find('.header').append(options.headerView.$el);
             $el.find('.videos').append(options.videosView.$el);
             $el.find('.activities').append(options.activitiesView.$el);
+
+            options.headerView.setActiveView(HeaderView.VIEW.HOME);
         },
 
         remove : function() {
+            this.options.headerView.remove();
             this.$el.remove();
         }
     }, {
         getInstance : function() {
             _instance = _instance || new HomeView({
-                headerView : HeaderView.getInstance(),
+                headerView : new HeaderView(),
                 videosView : VideosView.getInstance(),
                 activitiesView : ActivitiesView.getInstance()
             });
