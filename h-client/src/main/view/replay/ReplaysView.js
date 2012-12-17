@@ -65,6 +65,9 @@ define(function(require) {
         getInstance : function() {
             if (!_instance) {
                 _instance = new ReplaysView({
+                    // Don't return an instance of header view because it's
+                    // shared with replaysview which causes a bug when switching
+                    // between views.
                     model : ReplayCollection.getInstance(),
                     headerView : new HeaderView(),
                     searchView : SearchView.getInstance()

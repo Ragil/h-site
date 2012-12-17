@@ -42,6 +42,9 @@ define(function(require) {
     }, {
         getInstance : function() {
             _instance = _instance || new HomeView({
+                // Don't return an instance of header view because it's shared
+                // with replaysview which causes a bug when switching between
+                // views.
                 headerView : new HeaderView(),
                 videosView : VideosView.getInstance(),
                 activitiesView : ActivitiesView.getInstance()

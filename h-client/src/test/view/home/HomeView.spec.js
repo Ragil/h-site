@@ -95,6 +95,32 @@ define(function(require) {
                 homeView.remove();
             });
 
+            it('should set the active view as VIEW.HOME', function() {
+                var videosView = VideosView.getInstance();
+                var headerView = HeaderView.getInstance();
+                var activitiesView = ActivitiesView.getInstance();
+
+                // spy on setActiveView
+                var spy = sinon.stub(headerView, 'setActiveView');
+
+                var homeView = new HomeView({
+                    headerView : headerView,
+                    videosView : videosView,
+                    activitiesView : activitiesView
+                });
+
+                // verify that the active view is changed
+                expect(spy.callCount).to.be(1);
+                expect(spy.firstCall.args[0]).to.be(HeaderView.VIEW.HOME);
+
+                // clean up
+                spy.restore();
+                headerView.remove();
+                videosView.remove();
+                activitiesView.remove();
+                homeView.remove();
+            });
+
         });
 
         describe('getInstance', function() {

@@ -123,13 +123,43 @@ define(function(require) {
                 });
 
                 // verify contents
-                expect(view.$('.header').children().html()).to.be(headerView.$el.html());
-                expect(view.$('.search').children().html()).to.be(searchView.$el.html());
+                expect(view.$('.header').children().html()).to
+                        .be(headerView.$el.html());
+                expect(view.$('.search').children().html()).to
+                        .be(searchView.$el.html());
 
                 // clean up
                 headerView.remove();
                 searchView.remove();
                 view.remove();
+            });
+
+            it('should set the active view to VIEW.REPLAY', function() {
+
+                // create subviews
+                var headerView = HeaderView.getInstance();
+                var searchView = SearchView.getInstance();
+
+                // spy on setActiveView
+                var spy = sinon.stub(headerView, 'setActiveView');
+
+                // create view
+                var view = new ReplaysView({
+                    model : new ReplayCollection(),
+                    headerView : headerView,
+                    searchView : searchView
+                });
+
+                // verify that the active view is set to VIEW.REPLAY
+                expect(spy.callCount).to.be(1);
+                expect(spy.firstCall.args[0]).to.be(HeaderView.VIEW.REPLAY);
+
+                // clean up
+                spy.restore();
+                headerView.remove();
+                searchView.remove();
+                view.remove();
+
             });
 
         });
