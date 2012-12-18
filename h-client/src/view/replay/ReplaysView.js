@@ -48,6 +48,7 @@ define(function(require) {
             });
             this.$uploadForm.on('show', _.bind(this.onCollapseShown, this));
             this.$uploadForm.on('hide', _.bind(this.onCollapseHidden, this));
+            this.collapseShowing = false;
 
             this.render();
         },
@@ -69,11 +70,15 @@ define(function(require) {
         },
 
         showUploadView : function() {
-            this.$uploadForm.collapse('show');
+            if (!this.collapseShowing) {
+                this.$uploadForm.collapse('show');
+            }
         },
 
         hideUploadView : function() {
-            this.$uploadForm.collapse('hide');
+            if (this.collapseShowing) {
+                this.$uploadForm.collapse('hide');
+            }
         },
 
         onCollapseShown : function() {
@@ -83,6 +88,7 @@ define(function(require) {
                 trigger : false,
                 replace : true
             });
+            this.collapseShowing = true;
         },
 
         onCollapseHidden : function() {
@@ -92,6 +98,7 @@ define(function(require) {
                 trigger : false,
                 replace : true
             });
+            this.collapseShowing = false;
         },
 
         remove : function() {
