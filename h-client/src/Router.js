@@ -19,7 +19,8 @@ define(function(require) {
         routes : {
             '' : 'index',
             'home' : 'home',
-            'replay' : 'replay'
+            'replay' : 'replay',
+            'replay/upload' : 'showUploadView'
         },
 
         index : function() {
@@ -35,6 +36,12 @@ define(function(require) {
 
         replay : function() {
             this.mainView.setLayout(ReplaysView.getInstance());
+            ReplaysView.getInstance().hideUploadView();
+        },
+
+        showUploadView : function() {
+            this.mainView.setLayout(ReplaysView.getInstance());
+            ReplaysView.getInstance().showUploadView();
         }
 
     });

@@ -1,7 +1,7 @@
 {
     "name": "h-client",
     "version": "0.0.1",
-    "main": "src/main/app.js",
+    "main": "",
     "dependencies": {
         "jquery": "git://github.com/components/jquery.git",
         "backbone": "git://github.com/documentcloud/backbone.git",

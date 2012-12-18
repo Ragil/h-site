@@ -49,9 +49,6 @@ define(function(require) {
                 // verify they are the same instance
                 expect(view1).to.be(view2);
 
-                // verify that only one server call is made
-                expect(spy.callCount).to.be(1);
-
                 // clean up
                 spy.restore();
                 view1.remove();

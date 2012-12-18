@@ -9,10 +9,11 @@ define(function(require) {
     var replayService = require('replayService');
     var HeaderView = require('view/header/HeaderView');
     var ReplaysView = require('view/replay/ReplaysView');
-    var SearchView = require('view/replay/SearchView');
+    var SearchView = require('view/replay/search/SearchView');
     var ReplayCollection = require('view/replay/ReplayCollection');
     var ReplayModel = require('view/replay/ReplayModel');
     var ReplayView = require('view/replay/ReplayView');
+    var UploadView = require('view/replay/upload/UploadView');
 
     describe('ReplaysView', function() {
 
@@ -43,13 +44,35 @@ define(function(require) {
             it('should throw exception without model', function() {
                 var headerView = HeaderView.getInstance();
                 var searchView = SearchView.getInstance();
+                var uploadView = UploadView.getInstance();
 
                 // verify
                 expect(function() {
                     new ReplaysView({
                         model : null,
                         headerView : headerView,
-                        searchView : searchView
+                        searchView : searchView,
+                        uploadView : uploadView
+                    });
+                }).to.throwException();
+
+                // clean up
+                uploadView.remove();
+                searchView.remove();
+                headerView.remove();
+            });
+
+            it('should throw exception without uploadView', function() {
+                var headerView = HeaderView.getInstance();
+                var searchView = SearchView.getInstance();
+
+                // verify
+                expect(function() {
+                    new ReplaysView({
+                        model : new ReplayCollection(),
+                        headerView : headerView,
+                        searchView : searchView,
+                        uploadView : null
                     });
                 }).to.throwException();
 
@@ -60,39 +83,46 @@ define(function(require) {
 
             it('should throw exception without headerView', function() {
                 var searchView = SearchView.getInstance();
+                var uploadView = UploadView.getInstance();
 
                 // verify
                 expect(function() {
                     new ReplaysView({
                         model : new ReplayCollection(),
                         headerView : null,
-                        searchView : searchView
+                        searchView : searchView,
+                        uploadView : uploadView
                     });
                 }).to.throwException();
 
                 // clean up
+                uploadView.remove();
                 searchView.remove();
             });
 
             it('should throw exception without searchView', function() {
                 var headerView = HeaderView.getInstance();
+                var uploadView = UploadView.getInstance();
 
                 // verify
                 expect(function() {
                     view = new ReplaysView({
                         model : new ReplayCollection(),
                         headerView : headerView,
-                        searchView : null
+                        searchView : null,
+                        uploadView : uploadView
                     });
                 }).to.throwException();
 
                 // clean up
+                uploadView.remove();
                 headerView.remove();
             });
 
             it('should create an instance given all params', function() {
                 var headerView = HeaderView.getInstance();
                 var searchView = SearchView.getInstance();
+                var uploadView = UploadView.getInstance();
                 var view = null;
 
                 // verify
@@ -100,13 +130,15 @@ define(function(require) {
                     view = new ReplaysView({
                         model : new ReplayCollection(),
                         headerView : headerView,
-                        searchView : searchView
+                        searchView : searchView,
+                        uploadView : uploadView
                     });
                 }).not.to.throwException();
 
                 // clean up
                 searchView.remove();
                 headerView.remove();
+                uploadView.remove();
                 view.remove();
             });
 
@@ -114,12 +146,14 @@ define(function(require) {
                 // create subviews
                 var headerView = HeaderView.getInstance();
                 var searchView = SearchView.getInstance();
+                var uploadView = UploadView.getInstance();
 
                 // create view
                 var view = new ReplaysView({
                     model : new ReplayCollection(),
                     headerView : headerView,
-                    searchView : searchView
+                    searchView : searchView,
+                    uploadView : uploadView
                 });
 
                 // verify contents
@@ -127,18 +161,21 @@ define(function(require) {
                         .be(headerView.$el.html());
                 expect(view.$('.search').children().html()).to
                         .be(searchView.$el.html());
+                expect(view.$('.uploadCollapse').children().html()).to
+                        .be(uploadView.$el.html());
 
                 // clean up
                 headerView.remove();
                 searchView.remove();
+                uploadView.remove();
                 view.remove();
             });
 
             it('should set the active view to VIEW.REPLAY', function() {
-
                 // create subviews
                 var headerView = HeaderView.getInstance();
                 var searchView = SearchView.getInstance();
+                var uploadView = UploadView.getInstance();
 
                 // spy on setActiveView
                 var spy = sinon.stub(headerView, 'setActiveView');
@@ -147,7 +184,8 @@ define(function(require) {
                 var view = new ReplaysView({
                     model : new ReplayCollection(),
                     headerView : headerView,
-                    searchView : searchView
+                    searchView : searchView,
+                    uploadView : uploadView
                 });
 
                 // verify that the active view is set to VIEW.REPLAY
@@ -158,8 +196,8 @@ define(function(require) {
                 spy.restore();
                 headerView.remove();
                 searchView.remove();
+                uploadView.remove();
                 view.remove();
-
             });
 
         });
@@ -207,7 +245,8 @@ define(function(require) {
                 var view = new ReplaysView({
                     model : collection,
                     headerView : HeaderView.getInstance(),
-                    searchView : SearchView.getInstance()
+                    searchView : SearchView.getInstance(),
+                    uploadView : UploadView.getInstance()
                 });
 
                 // verify that two row entries are created
@@ -223,6 +262,7 @@ define(function(require) {
                 view2.remove();
                 HeaderView.getInstance().remove();
                 SearchView.getInstance().remove();
+                UploadView.getInstance().remove();
                 view.remove();
             });
 

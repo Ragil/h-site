@@ -8,7 +8,7 @@ define(function(require) {
     require('sinon');
     var replayService = require('replayService');
     var ReplayCollection = require('view/replay/ReplayCollection');
-    var SearchView = require('view/replay/SearchView');
+    var SearchView = require('view/replay/search/SearchView');
 
     describe('SearchView', function() {
 

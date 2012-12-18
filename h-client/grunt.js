@@ -1,24 +1,70 @@
+/* js/components/*.js */
 module.exports = function(grunt) {
 
-    var localDir = 'target/local/';
-    var distDir = 'target/dist/';
-    
+    // root directories
+    var srcDir = 'src';
+    var testDir = 'test';
+    var targetDir = 'target';
+    var thriftDir = srcDir + '/thrift';
+    var localDir = targetDir + '/local';
+    var distDir = targetDir + '/dist/';
+    var deployDir = '../h-server/war/dist';
+    var componentsDir = srcDir + '/components';
+
+    // requirejs config file name
+    var configJS = 'config.js';
+
+    // global variables shared between build configurations
+    var global = {
+        srcLess : srcDir + '/view',
+        srcHtml : srcDir + '/view/**/*.html',
+        configJSFile : srcDir + '/' + configJS,
+
+        bootstrap_less : componentsDir + '/bootstrap/less',
+        elements_less : componentsDir + '/less-elements'
+    };
+
+    // local specific properties
+    var local = {
+        cssOut : localDir + '/css/optimized.css'
+    };
+
+    // production specific properties
+    var dist = {
+        jsOut : distDir + '/js/optimized.js',
+        cssOut : localDir + '/css/optimized.css'
+    };
+
+    // less settings
+    var localLessFiles = {};
+    localLessFiles[local.cssOut] = global.srcLess + '/MainView.less';
+    var distLessFiles = {};
+    distLessFiles[local.cssOut] = global.srcLess + '/MainView.less';
+
+    // copy files
+    var srcJSFiles = [ srcDir + '/*.js' ];
+    [ 'view', 'service', 'util' ].forEach(function(subDir) {
+        srcJSFiles.push(srcDir + '/' + subDir + '/*.js');
+        srcJSFiles.push(srcDir + '/' + subDir + '/**/*.js');
+    });
+
+    // copy settings
+    var localCopyFiles = {};
+    localCopyFiles[deployDir + '/js/'] = [ global.srcHtml, thriftDir + '/gen-js/*.js' ].concat(srcJSFiles);
+    localCopyFiles[deployDir + '/js/components/'] = [ componentsDir + '/**' ];
+    localCopyFiles[deployDir + '/css/'] = [ local.cssOut ];
+    localCopyFiles[deployDir + '/index.html'] = [ 'local-index.html' ];
+
     // Project configuration.
     grunt.initConfig({
         clean : {
-            target : 'target/',
-            war : '../h-server/war/dist/'
+            target : targetDir,
+            war : deployDir
         },
 
         lint : {
-            all : [ 'grunt.js',
-                    'src/main/*.js', 'src/test/service/*.js',
-                    'src/test/util/*.js',
-                    'src/test/view/*.js',
-                    'src/test/view/**/*.js',
-                    'src/test/*.js', 'src/test/**/*.js',
-                    'components/require/require.js',
-                    'components/requirejs-text.js' ]
+            all : [ 'grunt.js', testDir + '/*.js', testDir + '**/*.js' ]
+                    .concat(srcJSFiles)
         },
 
         jshint : {
@@ -41,21 +87,12 @@ module.exports = function(grunt) {
         },
 
         requirejs : {
-            local : {
-                options : {
-                    include : 'config.js',
-                    baseUrl : 'src/main/',
-                    mainConfigFile : 'src/main/config.js',
-                    out : localDir + 'js/optimized.js',
-                    optimize : 'none'
-                }
-            },
             dist : {
                 options : {
-                    include : 'config.js',
-                    baseUrl : 'src/main/',
-                    mainConfigFile : 'src/main/config.js',
-                    out : distDir + 'js/optimized.js'
+                    include : configJS,
+                    baseUrl : srcDir,
+                    mainConfigFile : global.configJSFile,
+                    out : dist.jsOut
                 }
             }
         },
@@ -63,54 +100,47 @@ module.exports = function(grunt) {
         less : {
             local : {
                 options : {
-                    paths : [ 'src/main/view/', 'components/bootstrap/less/',
-                              'components/less-elements/']
+                    paths : [ global.srcLess, global.bootstrap_less,
+                            global.elements_less ]
                 },
-                files : {
-                    'target/local/css/optimized.css' : 'src/main/view/MainView.less'
-                }
+                files : localLessFiles
             },
             dist : {
                 options : {
-                    paths : [ 'src/main/view/', 'components/bootstrap/less/',
-                              'components/less-elements'],
+                    paths : [ global.srcLess, global.bootstrap_less,
+                            global.elements_less ],
                     compress : true
                 },
-                files : {
-                    'target/dist/css/optimized.css' : 'src/main/view/MainView.less'
-                }
+                files : distLessFiles
             }
         },
 
-        thrift: {
-            files : ['src/main/thrift/ActivityService.thrift',
-                     'src/main/thrift/VideoService.thrift',
-                     'src/main/thrift/ReplayService.thrift',
-                     'src/main/thrift/UserService.thrift'],
-            languages : ['js'],
-            out : 'src/main/thrift'
+        thrift : {
+            files : [ thriftDir + '/ActivityService.thrift',
+                    thriftDir + '/VideoService.thrift',
+                    thriftDir + '/ReplayService.thrift',
+                    thriftDir + '/UserService.thrift' ],
+            languages : [ 'js' ],
+            out : thriftDir
         },
 
         mocha : {
-            index : [ 'src/test/index.html' ]
+            index : [ testDir + '/index.html' ]
         },
 
         copy : {
             local : {
-                files : {
-                    '../h-server/war/dist/js/src/main/' : [ 'src/main/**/*.js',
-                                                            'src/main/*.js',
-                                                            'src/main/**/*.html',
-                                                         '  src/main/*.html'],
-                    '../h-server/war/dist/css/' : [ 'target/local/css/**' ],
-                    '../h-server/war/dist/js/components/' : [ 'components/**' ],
-                    '../h-server/war/dist/index.html' : [ 'local-index.html' ]
-                }
+                files : localCopyFiles
             },
             dist : {
                 files : {
-                    '../h-server/war/dist/css/' : ['target/dist/css/**'],
-                    '../h-server/war/dist/js/' : ['target/dist/js/**']
+                    '../h-server/war/dist/css/' : [ 'target/dist/css/**' ],
+                    '../h-server/war/dist/js/' : [ 'target/dist/js/**' ]
+                }
+            },
+            options : {
+                minmatch : {
+                    matchBase : true
                 }
             }
         }
@@ -124,7 +154,8 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-mocha');
 
     // Default task.
-    grunt.registerTask('local', 'clean thrift lint mocha less:local copy:local');
-    grunt.registerTask('default', 'clean thrift lint mocha requirejs:dist less:dist copy:dist');
+    grunt.registerTask('local', 'thrift lint mocha less:local copy:local');
+    grunt.registerTask('default',
+            'thrift lint mocha requirejs:dist less:dist copy:dist');
     grunt.registerTask('test', 'thrift lint mocha');
 };

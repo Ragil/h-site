@@ -35,13 +35,15 @@ define(function(require) {
             this.$el.remove();
         },
 
-        redirectToHome : function() {
+        redirectToHome : function(event) {
+            event.preventDefault();
             Backbone.history.navigate('home', {
                 trigger : true
             });
         },
 
-        redirectToReplay : function() {
+        redirectToReplay : function(event) {
+            event.preventDefault();
             Backbone.history.navigate('replay', {
                 trigger : true
             });

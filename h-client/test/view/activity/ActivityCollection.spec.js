@@ -20,7 +20,6 @@ define(function(require) {
 
                 // verify they are both the same collection
                 expect(collection1).to.be(collection2);
-                expect(spy.callCount).to.be(1);
 
                 // clean up
                 spy.restore();
@@ -81,17 +80,25 @@ define(function(require) {
 
                 // verify first ActivityModel
                 var firstActivity = collection.at(0);
-                expect(firstActivity.get('id')).to.be('activity1');
-                expect(firstActivity.get('created_ts')).to.be(2);
-                expect(firstActivity.get('type')).to.be(ActivityType.NEW_VIDEO);
-                expect(firstActivity.get('description')).to.be('desc1');
+                expect(firstActivity.get('id')).to
+                        .be('activity1');
+                expect(firstActivity.get('created_ts')).to
+                        .be(2);
+                expect(firstActivity.get('type')).to
+                        .be(ActivityType.NEW_VIDEO);
+                expect(firstActivity.get('description')).to
+                        .be('desc1');
 
                 // verify second ActivityModel
                 var secondActivity = collection.at(1);
-                expect(secondActivity.get('id')).to.be('activity2');
-                expect(secondActivity.get('created_ts')).to.be(1);
-                expect(secondActivity.get('type')).to.be(ActivityType.NEW_USER);
-                expect(secondActivity.get('description')).to.be('desc2');
+                expect(secondActivity.get('id')).to
+                        .be('activity2');
+                expect(secondActivity.get('created_ts')).to
+                        .be(1);
+                expect(secondActivity.get('type')).to
+                        .be(ActivityType.NEW_USER);
+                expect(secondActivity.get('description')).to
+                        .be('desc2');
 
                 // clean up
                 spy.restore();

@@ -5,9 +5,11 @@ define(function(require) {
     var check = require('check');
     var Backbone = require('backbone');
     var ReplayCollection = require('view/replay/ReplayCollection');
-    var SearchView = require('view/replay/SearchView');
+    var SearchView = require('view/replay/search/SearchView');
+    var UploadView = require('view/replay/upload/UploadView');
     var ReplayView = require('view/replay/ReplayView');
     var HeaderView = require('view/header/HeaderView');
+    require('bootstrap');
 
     var template = require('text!view/replay/ReplaysView.html');
 
@@ -23,20 +25,31 @@ define(function(require) {
             check(options.model).strict().isOfType(ReplayCollection);
             check(options.headerView).strict().isOfType(HeaderView);
             check(options.searchView).strict().isOfType(SearchView);
+            check(options.uploadView).strict().isOfType(UploadView);
 
             this.options = options;
             this.$el.html(_.template(template, {}));
             this.$header = this.$el.find('.header');
             this.$search = this.$el.find('.search');
+            this.$uploadBtn = this.$el.find('.uploadBtn');
+            this.$uploadForm = this.$el.find('.uploadCollapse');
             this.$replays = this.$el.find('.replays');
 
             this.$header.append(options.headerView.$el);
             this.$search.append(options.searchView.$el);
+            this.$uploadForm.append(options.uploadView.$el);
 
             options.model.on('change', this.render, this);
-            this.render();
-
             options.headerView.setActiveView(HeaderView.VIEW.REPLAY);
+
+            // setup uploadBtn behaviour
+            this.$uploadBtn.collapse({
+                toggle : false
+            });
+            this.$uploadForm.on('show', _.bind(this.onCollapseShown, this));
+            this.$uploadForm.on('hide', _.bind(this.onCollapseHidden, this));
+
+            this.render();
         },
 
         render : function() {
@@ -55,6 +68,32 @@ define(function(require) {
 
         },
 
+        showUploadView : function() {
+            this.$uploadForm.collapse('show');
+        },
+
+        hideUploadView : function() {
+            this.$uploadForm.collapse('hide');
+        },
+
+        onCollapseShown : function() {
+            // silently replace to the upload url so when users refresh the
+            // page, they can see the upload view
+            Backbone.history.navigate('replay/upload', {
+                trigger : false,
+                replace : true
+            });
+        },
+
+        onCollapseHidden : function() {
+            // silently replace back to the replay url so when users refresh the
+            // page, they don't see the upload view
+            Backbone.history.navigate('replay', {
+                trigger : false,
+                replace : true
+            });
+        },
+
         remove : function() {
             this.model.off('change', null, this);
             this.options.headerView.remove();
@@ -70,7 +109,8 @@ define(function(require) {
                     // between views.
                     model : ReplayCollection.getInstance(),
                     headerView : new HeaderView(),
-                    searchView : SearchView.getInstance()
+                    searchView : SearchView.getInstance(),
+                    uploadView : UploadView.getInstance()
                 });
             }
             return _instance;

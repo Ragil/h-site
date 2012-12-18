@@ -5,20 +5,16 @@
     "http://www.tuckey.org/res/dtds/urlrewrite4.0.dtd">
 
 <urlrewrite>
-	<rule>
+    <rule>
         <from>/app/css/(.*)$</from>
         <to>/dist/css/$1</to>
     </rule>
     <rule>
-        <from>/app/components/(.*)$</from>
-        <to>/dist/js/components/$1</to>
+        <from>/app/(.*)/src/(.*)$</from>
+        <to>/dist/js/$2</to>
     </rule>
     <rule>
         <from>/app/src/(.*)$</from>
-        <to>/dist/js/src/$1</to>
-    </rule>
-    <rule>
-        <from>/app/js/(.*)$</from>
         <to>/dist/js/$1</to>
     </rule>
 	<rule>

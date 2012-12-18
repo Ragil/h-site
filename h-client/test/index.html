@@ -3,21 +3,21 @@
 <head>
 <meta charset="utf-8">
 <title></title>
-<link rel="stylesheet" href="../../components/mocha/mocha.css" type="text/css"
+<link rel="stylesheet" href="../src/components/mocha/mocha.css" type="text/css"
     media="screen" title="no title" charset="utf-8">
 </head>
 <body>
-    <script src="../../components/require/require.js" type="text/javascript"
+    <script src="../src/components/require/require.js" type="text/javascript"
         charset="utf-8"></script>
-    <script src="../../components/mocha/mocha.js" type="text/javascript"
+    <script src="../src/components/mocha/mocha.js" type="text/javascript"
         charset="utf-8"></script>
-    <script src="../../components/expect/expect.js" type="text/javascript"
+    <script src="../src/components/expect/expect.js" type="text/javascript"
         charset="utf-8"></script>
     <!-- Common config -->
-    <script src="../main/config.js" type="text/javascript" charset="utf-8"></script>
+    <script src="../src/config.js" type="text/javascript" charset="utf-8"></script>
     <script type="text/javascript" charset="utf-8">
         require.config({
-            baseUrl : '../main/'
+            baseUrl : '../src/'
         })
         mocha.setup({
             ui : 'bdd',
@@ -39,7 +39,8 @@
                   'test/view/replay/ReplayCollection.spec',
                   'test/view/replay/ReplaysView.spec',
                   'test/view/replay/ReplayView.spec',
-                  'test/view/replay/SearchView.spec'],
+                  'test/view/replay/search/SearchView.spec',
+                  'test/view/replay/upload/UploadView.spec' ],
                   runMocha);
     </script>
     <div id="mocha"></div>

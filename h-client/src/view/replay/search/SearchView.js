@@ -9,7 +9,7 @@ define(function(require) {
     var Backbone = require('backbone');
     var check = require('check');
     var ReplayCollection = require('view/replay/ReplayCollection');
-    var template = require('text!view/replay/SearchView.html');
+    var template = require('text!view/replay/search/SearchView.html');
 
     var _instance = null;
 
