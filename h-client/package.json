@@ -8,6 +8,8 @@
         "grunt-contrib-less": "0.3.0",
         "grunt-requirejs": "0.3.0",
         "grunt-contrib-copy": "0.3.2",
-        "grunt-clean": "0.3.0"
+        "grunt-clean": "0.3.0",
+        "grunt-lib-contrib": "0.4.0",
+        "coverjs": "0.0.11-alpha"
     }
 }

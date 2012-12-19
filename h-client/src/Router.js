@@ -7,6 +7,7 @@ define(function(require) {
 
     var HomeView = require('view/home/HomeView');
     var ReplaysView = require('view/replay/ReplaysView');
+    var AuthView = require('view/auth/AuthView');
     var MainView = require('view/MainView');
     var Backbone = require('backbone');
 
@@ -20,7 +21,8 @@ define(function(require) {
             '' : 'index',
             'home' : 'home',
             'replay' : 'replay',
-            'replay/upload' : 'showUploadView'
+            'replay/upload' : 'showUploadView',
+            'profile/login' : 'login'
         },
 
         index : function() {
@@ -42,6 +44,10 @@ define(function(require) {
         showUploadView : function() {
             this.mainView.setLayout(ReplaysView.getInstance());
             ReplaysView.getInstance().showUploadView();
+        },
+
+        login : function() {
+            this.mainView.setLayout(AuthView.getInstance());
         }
 
     });

@@ -5,6 +5,8 @@
 <title></title>
 <link rel="stylesheet" href="../src/components/mocha/mocha.css" type="text/css"
     media="screen" title="no title" charset="utf-8">
+<link rel="stylesheet" href="coverage/reporter.css" type="text/css"
+    media="screen" title="no title" charset="utf-8">
 </head>
 <body>
     <script src="../src/components/require/require.js" type="text/javascript"
@@ -14,35 +16,41 @@
     <script src="../src/components/expect/expect.js" type="text/javascript"
         charset="utf-8"></script>
     <!-- Common config -->
-    <script src="../src/config.js" type="text/javascript" charset="utf-8"></script>
+    <script src="../src-cov/config.js" type="text/javascript" charset="utf-8"></script>
     <script type="text/javascript" charset="utf-8">
-        require.config({
-            baseUrl : '../src/'
-        })
-        mocha.setup({
-            ui : 'bdd',
-            // ignore jquery global leak
-            globals : [ 'jQuery*' ]
-        });
-        require([ 'test/util/check.spec',
-                  'test/view/home/HomeView.spec',
-                  'test/view/header/HeaderView.spec',
-                  'test/view/videos/VideoCollection.spec',
-                  'test/view/videos/VideoModel.spec',
-                  'test/view/videos/VideosView.spec',
-                  'test/view/videos/VideoView.spec',
-                  'test/view/activity/ActivityCollection.spec',
-                  'test/view/activity/ActivityModel.spec',
-                  'test/view/activity/ActivitiesView.spec',
-                  'test/view/activity/ActivityView.spec',
-                  'test/view/replay/ReplayModel.spec',
-                  'test/view/replay/ReplayCollection.spec',
-                  'test/view/replay/ReplaysView.spec',
-                  'test/view/replay/ReplayView.spec',
-                  'test/view/replay/search/SearchView.spec',
-                  'test/view/replay/upload/UploadView.spec' ],
-                  runMocha);
-    </script>
+                    require.config({
+                        baseUrl : '../src-cov/'
+                    })
+                    mocha.setup({
+                        ui : 'bdd',
+                        // ignore jquery global leak
+                        globals : [ 'jQuery*' ]
+                    });
+                    require(
+                            [
+                                    'test/util/check.spec',
+                                    'test/view/home/HomeView.spec',
+                                    'test/view/header/HeaderView.spec',
+                                    'test/view/videos/VideoCollection.spec',
+                                    'test/view/videos/VideoModel.spec',
+                                    'test/view/videos/VideosView.spec',
+                                    'test/view/videos/VideoView.spec',
+                                    'test/view/activity/ActivityCollection.spec',
+                                    'test/view/activity/ActivityModel.spec',
+                                    'test/view/activity/ActivitiesView.spec',
+                                    'test/view/activity/ActivityView.spec',
+                                    'test/view/replay/ReplayModel.spec',
+                                    'test/view/replay/ReplayCollection.spec',
+                                    'test/view/replay/ReplaysView.spec',
+                                    'test/view/replay/ReplayView.spec',
+                                    'test/view/replay/search/SearchView.spec',
+                                    'test/view/replay/upload/UploadView.spec',
+                                    'test/view/auth/AuthView.spec',
+                                    'coverage/JSCovReporter.js',
+                                    'coverage/reporter.js' ], runMocha);
+                </script>
+    <div id="menu"></div>
     <div id="mocha"></div>
+    <div id="coverage"></div>
 </body>
 </html>

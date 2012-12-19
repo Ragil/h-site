@@ -42,5 +42,11 @@ require.config({
 });
 
 var runMocha = function() {
-    mocha.run();
+    mocha.run(function() {
+        if (typeof window.__$coverObject !== 'undefined') {
+            var reporter = new JSCovReporter({
+                coverObject : window.__$coverObject
+            });
+        }
+    });
 };

@@ -5,6 +5,7 @@ module.exports = function(grunt) {
     var srcDir = 'src';
     var testDir = 'test';
     var targetDir = 'target';
+    var srcCovDir = 'src-cov';
     var thriftDir = srcDir + '/thrift';
     var localDir = targetDir + '/local';
     var distDir = targetDir + '/dist/';
@@ -50,7 +51,8 @@ module.exports = function(grunt) {
 
     // copy settings
     var localCopyFiles = {};
-    localCopyFiles[deployDir + '/js/'] = [ global.srcHtml, thriftDir + '/gen-js/*.js' ].concat(srcJSFiles);
+    localCopyFiles[deployDir + '/js/'] = [ global.srcHtml,
+            thriftDir + '/gen-js/*.js' ].concat(srcJSFiles);
     localCopyFiles[deployDir + '/js/components/'] = [ componentsDir + '/**' ];
     localCopyFiles[deployDir + '/css/'] = [ local.cssOut ];
     localCopyFiles[deployDir + '/index.html'] = [ 'local-index.html' ];
@@ -59,7 +61,8 @@ module.exports = function(grunt) {
     grunt.initConfig({
         clean : {
             target : targetDir,
-            war : deployDir
+            war : deployDir,
+            instrument : 'src-cov'
         },
 
         lint : {
@@ -124,11 +127,27 @@ module.exports = function(grunt) {
             out : thriftDir
         },
 
+        cover : {
+            compile : {
+                files : {
+                    'target/src-cov/*.js' : srcJSFiles
+                }
+            }
+        },
+
         mocha : {
             index : [ testDir + '/index.html' ]
         },
 
         copy : {
+            instrument : {
+                files : {
+                    'src-cov/' : 'target/src-cov/src/**',
+                    'src-cov/view/' : global.srcHtml,
+                    'src-cov/components/' : componentsDir + '/**',
+                    'src-cov/thrift/gen-js/' : thriftDir + '/**/*.js'
+                }
+            },
             local : {
                 files : localCopyFiles
             },
@@ -154,8 +173,8 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-mocha');
 
     // Default task.
-    grunt.registerTask('local', 'thrift lint mocha less:local copy:local');
-    grunt.registerTask('default',
-            'thrift lint mocha requirejs:dist less:dist copy:dist');
-    grunt.registerTask('test', 'thrift lint mocha');
+    grunt.registerTask('instrument', 'clean:instrument cover copy:instrument');
+    grunt.registerTask('test', 'thrift lint instrument mocha');
+    grunt.registerTask('local', 'test less:local copy:local');
+    grunt.registerTask('default', 'test requirejs:dist less:dist copy:dist');
 };
