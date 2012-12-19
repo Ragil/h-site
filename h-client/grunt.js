@@ -1,6 +1,9 @@
 /* js/components/*.js */
 module.exports = function(grunt) {
 
+    // unique build id
+    var hash = new Date().getTime();
+
     // root directories
     var srcDir = 'src';
     var testDir = 'test';
@@ -14,6 +17,7 @@ module.exports = function(grunt) {
 
     // requirejs config file name
     var configJS = 'config.js';
+    var requireJSFile = componentsDir + '/require/require.js';
 
     // global variables shared between build configurations
     var global = {
@@ -27,20 +31,25 @@ module.exports = function(grunt) {
 
     // local specific properties
     var local = {
+        indexOut : localDir + '/index.html',
         cssOut : localDir + '/css/optimized.css'
     };
 
     // production specific properties
     var dist = {
-        jsOut : distDir + '/js/optimized.js',
-        cssOut : localDir + '/css/optimized.css'
+        indexOut : distDir + '/index.html',
+        jsOut : distDir + '/js/' + hash + '.js',
+        cssOut : distDir + '/css/' + hash + '.css',
+        requireJS : 'r' + new Date().getTime() + '.js'
     };
 
     // less settings
+    var lessPaths = [ global.srcLess, global.bootstrap_less,
+            global.elements_less ];
     var localLessFiles = {};
     localLessFiles[local.cssOut] = global.srcLess + '/MainView.less';
     var distLessFiles = {};
-    distLessFiles[local.cssOut] = global.srcLess + '/MainView.less';
+    distLessFiles[dist.cssOut] = global.srcLess + '/MainView.less';
 
     // copy files
     var srcJSFiles = [ srcDir + '/*.js' ];
@@ -49,20 +58,27 @@ module.exports = function(grunt) {
         srcJSFiles.push(srcDir + '/' + subDir + '/**/*.js');
     });
 
-    // copy settings
+    // local copy settings
     var localCopyFiles = {};
     localCopyFiles[deployDir + '/js/'] = [ global.srcHtml,
             thriftDir + '/gen-js/*.js' ].concat(srcJSFiles);
     localCopyFiles[deployDir + '/js/components/'] = [ componentsDir + '/**' ];
     localCopyFiles[deployDir + '/css/'] = [ local.cssOut ];
-    localCopyFiles[deployDir + '/index.html'] = [ 'local-index.html' ];
+    localCopyFiles[deployDir + '/index.html'] = [ local.indexOut ];
+
+    // prod copy settings
+    var distCopyFiles = {};
+    distCopyFiles[deployDir + '/js/'] = distDir + '/js/*';
+    distCopyFiles[deployDir + '/css/'] = distDir + '/css/*';
+    distCopyFiles[deployDir + '/index.html'] = distDir + '/index.html';
 
     // Project configuration.
     grunt.initConfig({
         clean : {
             target : targetDir,
             war : deployDir,
-            instrument : 'src-cov'
+            instrument : 'src-cov',
+            instrument_target : targetDir + '/src-cov'
         },
 
         lint : {
@@ -95,7 +111,16 @@ module.exports = function(grunt) {
                     include : configJS,
                     baseUrl : srcDir,
                     mainConfigFile : global.configJSFile,
-                    out : dist.jsOut
+                    out : dist.jsOut,
+                    preserveLicenseComments : false
+                }
+            },
+            amd : {
+                options : {
+                    include : 'require.js',
+                    baseUrl : componentsDir + '/require',
+                    out : distDir + '/js/' + dist.requireJS,
+                    preserveLicenseComments : false
                 }
             }
         },
@@ -103,15 +128,13 @@ module.exports = function(grunt) {
         less : {
             local : {
                 options : {
-                    paths : [ global.srcLess, global.bootstrap_less,
-                            global.elements_less ]
+                    paths : lessPaths
                 },
                 files : localLessFiles
             },
             dist : {
                 options : {
-                    paths : [ global.srcLess, global.bootstrap_less,
-                            global.elements_less ],
+                    paths : lessPaths,
                     compress : true
                 },
                 files : distLessFiles
@@ -152,14 +175,26 @@ module.exports = function(grunt) {
                 files : localCopyFiles
             },
             dist : {
-                files : {
-                    '../h-server/war/dist/css/' : [ 'target/dist/css/**' ],
-                    '../h-server/war/dist/js/' : [ 'target/dist/js/**' ]
+                files : distCopyFiles
+            }
+        },
+
+        // generate index.html
+        index : {
+            local : {
+                src : 'local-index.html',
+                dest : local.indexOut,
+                data : {
+                    css : 'optimized.css',
+                    js : 'config.js'
                 }
             },
-            options : {
-                minmatch : {
-                    matchBase : true
+            dist : {
+                src : 'prod-index.html',
+                dest : dist.indexOut,
+                data : {
+                    hash : hash,
+                    amd : dist.requireJS
                 }
             }
         }
@@ -173,8 +208,14 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-mocha');
 
     // Default task.
-    grunt.registerTask('instrument', 'clean:instrument cover copy:instrument');
-    grunt.registerTask('test', 'thrift lint instrument mocha');
-    grunt.registerTask('local', 'test less:local copy:local');
-    grunt.registerTask('default', 'test requirejs:dist less:dist copy:dist');
+    grunt.registerTask('instrument',
+            'clean:instrument cover copy:instrument clean:instrument_target');
+
+    grunt.registerTask('test-cov', 'clean thrift lint instrument mocha');
+    grunt.registerTask('test', 'test-cov clean:instrument');
+
+    grunt.registerTask('local', 'test-cov less:local index:local copy:local');
+    grunt.registerTask('dist',
+            'test requirejs:dist requirejs:amd less:dist index:dist copy:dist');
+    grunt.registerTask('default', 'test-cov');
 };
