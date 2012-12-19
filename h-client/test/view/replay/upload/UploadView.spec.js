@@ -1,6 +1,7 @@
 define(function(require) {
 
     require('sinon');
+    var Backbone = require('backbone');
     var UploadView = require('view/replay/upload/UploadView');
 
     describe('UploadView', function() {
@@ -19,6 +20,7 @@ define(function(require) {
             });
 
         });
+
 
     });
 

@@ -46,8 +46,8 @@ define(function(require) {
             this.$uploadBtn.collapse({
                 toggle : false
             });
-            this.$uploadForm.on('show', _.bind(this.onCollapseShown, this));
-            this.$uploadForm.on('hide', _.bind(this.onCollapseHidden, this));
+            this.$uploadForm.on('shown', _.bind(this.onCollapseShown, this));
+            this.$uploadForm.on('hidden', _.bind(this.onCollapseHidden, this));
             this.collapseShowing = false;
 
             this.render();

@@ -268,6 +268,42 @@ define(function(require) {
 
         });
 
+        describe('collapse', function() {
+
+            it('should navigate to/from upload when toggled', function() {
+
+                // listen to backbone history
+                var spy = sinon.stub(Backbone.history, 'navigate');
+
+                // create view and trigger the show collapse handler
+                var view = ReplaysView.getInstance();
+                view.onCollapseShown();
+
+                // verify silent navigate to upload
+                expect(spy.callCount).to.be(1);
+                var args = spy.firstCall.args;
+                expect(args[0]).to.be('replay/upload');
+                expect(args[1].trigger).to.be(false);
+                expect(args[1].replace).to.be(true);
+
+                // reset spy and trigger the hide collapse handler
+                spy.reset();
+                view.onCollapseHidden();
+
+                // verify silent navigate to replay
+                expect(spy.callCount).to.be(1);
+                var args = spy.firstCall.args;
+                expect(args[0]).to.be('replay');
+                expect(args[1].trigger).to.be(false);
+                expect(args[1].replace).to.be(true);
+
+                // clean up
+                view.remove();
+                spy.restore();
+            });
+
+        });
+
     });
 
 });
