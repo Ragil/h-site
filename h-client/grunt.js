@@ -146,7 +146,7 @@ module.exports = function(grunt) {
                     thriftDir + '/VideoService.thrift',
                     thriftDir + '/ReplayService.thrift',
                     thriftDir + '/UserService.thrift' ],
-            languages : [ 'js' ],
+            languages : [ 'js:jquery' ],
             out : thriftDir
         },
 
