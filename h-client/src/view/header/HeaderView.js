@@ -17,16 +17,20 @@ define(function(require) {
 
         events : {
             'click .homeBtn' : 'redirectToHome',
-            'click .replayBtn' : 'redirectToReplay'
+            'click .replayBtn' : 'redirectToReplay',
+            'click .myaccountBtn' : 'redirectToAccount'
         },
 
         initialize : function(options) {
             var $el = this.$el;
             $el.html(_.template(template, {}));
 
+            this.$myaccountBtn = $el.find('.myaccountBtn').parent();
+
             var $btns = [];
             $btns.push(this.$homeBtn = $el.find('.homeBtn').parent());
             $btns.push(this.$replayBtn = $el.find('.replayBtn').parent());
+            $btns.push(this.$myaccountBtn);
 
             this.$btns = $btns;
         },
@@ -49,6 +53,13 @@ define(function(require) {
             });
         },
 
+        redirectToAccount : function(event) {
+            event.preventDefault();
+            Backbone.history.navigate('profile', {
+                trigger : true
+            });
+        },
+
         /*
          * Deactivates all current buttons and activates the given btn
          */
@@ -67,6 +78,9 @@ define(function(require) {
             case HeaderView.VIEW.HOME:
                 this.setBtnActive(this.$homeBtn);
                 break;
+            case HeaderView.VIEW.MYACCOUNT:
+                this.setBtnActive(this.$myaccountBtn);
+                break;
             }
         }
 
@@ -78,7 +92,8 @@ define(function(require) {
 
         VIEW : {
             HOME : 'home',
-            REPLAY : 'replay'
+            REPLAY : 'replay',
+            MYACCOUNT : 'myaccount'
         }
     });
 

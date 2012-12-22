@@ -116,6 +116,25 @@ define(function(require) {
 
             });
 
+            describe('VIEW.MYACCOUNT', function() {
+
+                it('should set myaccountBtn active', function() {
+                    // create a view
+                    var view = new HeaderView();
+
+                    // set REPLAY as active view
+                    view.setActiveView(HeaderView.VIEW.MYACCOUNT);
+
+                    // verify that replay link is active
+                    expect(view.$('.myaccountBtn').parent().hasClass(
+                            'active')).to.be(true);
+
+                    // clean up
+                    view.remove();
+                });
+
+            });
+            
         });
 
     });

@@ -35,6 +35,7 @@ module.exports = function(grunt) {
 
                 thrift.stderr.on('data', function(data) {
                     grunt.log.error('stderr : ' + data);
+                    grunt.warn(new Error('Cannot compile one or more thrift files.'));
                 });
 
                 thrift.on('exit', function(code) {

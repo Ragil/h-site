@@ -22,7 +22,8 @@ define(function(require) {
             'home' : 'home',
             'replay' : 'replay',
             'replay/upload' : 'showUploadView',
-            'profile/login' : 'login'
+            'profile/login' : 'login',
+            'profile' : 'myaccount'
         },
 
         index : function() {
@@ -47,6 +48,11 @@ define(function(require) {
         },
 
         login : function() {
+            this.mainView.setLayout(AuthView.getInstance());
+        },
+
+        myaccount : function() {
+            // TODO : check user login with login logic
             this.mainView.setLayout(AuthView.getInstance());
         }
 

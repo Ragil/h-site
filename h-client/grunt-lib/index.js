@@ -10,6 +10,7 @@ module.exports = function(grunt) {
                     + '\'');
         } else {
             grunt.log.error('Cannot generate index : tmpl ' + tmpl + ' dest ' + conf.dest);
+            grunt.warn(new Error('Template not found'));
         }
     });
 };

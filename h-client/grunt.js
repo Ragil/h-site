@@ -145,7 +145,8 @@ module.exports = function(grunt) {
             files : [ thriftDir + '/ActivityService.thrift',
                     thriftDir + '/VideoService.thrift',
                     thriftDir + '/ReplayService.thrift',
-                    thriftDir + '/UserService.thrift' ],
+                    thriftDir + '/UserService.thrift',
+                    thriftDir + '/Errors.thrift' ],
             languages : [ 'js:jquery' ],
             out : thriftDir
         },
@@ -168,7 +169,8 @@ module.exports = function(grunt) {
                     'src-cov/' : 'target/src-cov/src/**',
                     'src-cov/view/' : global.srcHtml,
                     'src-cov/components/' : componentsDir + '/**',
-                    'src-cov/thrift/gen-js/' : thriftDir + '/**/*.js'
+                    'src-cov/thrift/gen-js/' : thriftDir + '/gen-js/*.js',
+                    'src-cov/thrift/thrift.js' : thriftDir + '/thrift.js'
                 }
             },
             local : {
@@ -217,5 +219,7 @@ module.exports = function(grunt) {
     grunt.registerTask('local', 'test-cov less:local index:local copy:local');
     grunt.registerTask('dist',
             'test requirejs:dist requirejs:amd less:dist index:dist copy:dist');
+
+    grunt.registerTask('quick', 'clean thrift instrument');
     grunt.registerTask('default', 'test-cov');
 };

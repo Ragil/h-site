@@ -3,8 +3,9 @@ require.config({
     deps : [ 'main' ],
     paths : {
 
+        Thrift : 'thrift/thrift',
         thrift : 'thrift/gen-js',
-        test : '../test/',
+        test : '../test',
 
         // external libs
         jquery : "components/jquery/jquery",
@@ -23,7 +24,9 @@ require.config({
         // services
         videoService : 'service/videoService',
         activityService : 'service/activityService',
-        replayService : 'service/replayService'
+        replayService : 'service/replayService',
+        userService : 'service/userService',
+        tErrors : 'thrift/gen-js/Errors_types'
     },
 
     shim : {
@@ -33,6 +36,10 @@ require.config({
         },
         underscore : {
             exports : '_'
+        },
+        tErrors : {
+            deps : [ 'Thrift' ],
+            exports : 'tErrors'
         },
         mocha : {
             exports : 'mocha'

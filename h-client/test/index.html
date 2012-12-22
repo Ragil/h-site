@@ -26,28 +26,28 @@
                         // ignore jquery global leak
                         globals : [ 'jQuery*' ]
                     });
-                    require(
-                            [
-                                    'test/util/check.spec',
-                                    'test/view/home/HomeView.spec',
-                                    'test/view/header/HeaderView.spec',
-                                    'test/view/videos/VideoCollection.spec',
-                                    'test/view/videos/VideoModel.spec',
-                                    'test/view/videos/VideosView.spec',
-                                    'test/view/videos/VideoView.spec',
-                                    'test/view/activity/ActivityCollection.spec',
-                                    'test/view/activity/ActivityModel.spec',
-                                    'test/view/activity/ActivitiesView.spec',
-                                    'test/view/activity/ActivityView.spec',
-                                    'test/view/replay/ReplayModel.spec',
-                                    'test/view/replay/ReplayCollection.spec',
-                                    'test/view/replay/ReplaysView.spec',
-                                    'test/view/replay/ReplayView.spec',
-                                    'test/view/replay/search/SearchView.spec',
-                                    'test/view/replay/upload/UploadView.spec',
-                                    'test/view/auth/AuthView.spec',
-                                    'coverage/JSCovReporter.js',
-                                    'coverage/reporter.js' ], runMocha);
+                    require([ 'test/util/check.spec',
+                        'test/view/home/HomeView.spec',
+                        'test/view/header/HeaderView.spec',
+                        'test/view/videos/VideoCollection.spec',
+                        'test/view/videos/VideoModel.spec',
+                        'test/view/videos/VideosView.spec',
+                        'test/view/videos/VideoView.spec',
+                        'test/view/activity/ActivityCollection.spec',
+                        'test/view/activity/ActivityModel.spec',
+                        'test/view/activity/ActivitiesView.spec',
+                        'test/view/activity/ActivityView.spec',
+                        'test/view/replay/ReplayModel.spec',
+                        'test/view/replay/ReplayCollection.spec',
+                        'test/view/replay/ReplaysView.spec',
+                        'test/view/replay/ReplayView.spec',
+                        'test/view/replay/search/SearchView.spec',
+                        'test/view/replay/upload/UploadView.spec',
+                        'test/view/auth/AuthView.spec',
+                        'test/view/auth/login/LoginView.spec',
+                        'test/view/auth/signup/SignupView.spec',
+                        'coverage/JSCovReporter.js', 'coverage/reporter.js' ],
+                            runMocha);
                 </script>
     <div id="menu"></div>
     <div id="mocha"></div>
