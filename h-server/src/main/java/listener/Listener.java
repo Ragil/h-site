@@ -1,6 +1,6 @@
-package src.main.java.listener;
+package main.java.listener;
 
-import src.main.java.servlet.ActivityServlet;
+import main.java.servlet.ActivityServlet;
 
 import com.google.inject.Guice;
 import com.google.inject.Injector;

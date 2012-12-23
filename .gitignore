@@ -9,3 +9,4 @@ h-client/src-cov*
 h-server/war/WEB-INF/lib/*
 h-server/war/WEB-INF/classes/*
 h-server/war/dist/*
+h-server/src/main/java/thrift/*

@@ -10,6 +10,7 @@ module.exports = function(grunt) {
     var targetDir = 'target';
     var srcCovDir = 'src-cov';
     var thriftDir = srcDir + '/thrift';
+    var javaThriftDir = '../h-server/src/main/java/thrift';
     var localDir = targetDir + '/local';
     var distDir = targetDir + '/dist/';
     var deployDir = '../h-server/war/dist';
@@ -44,7 +45,8 @@ module.exports = function(grunt) {
     };
 
     // less settings
-    var lessPaths = [ global.srcLess, global.bootstrap_less,
+    var lessPaths = [ global.srcLess,
+        global.bootstrap_less,
         global.elements_less ];
     var localLessFiles = {};
     localLessFiles[local.cssOut] = global.srcLess + '/MainView.less';
@@ -61,8 +63,8 @@ module.exports = function(grunt) {
     // local copy settings
     var localCopyFiles = {};
     localCopyFiles[deployDir + '/js/'] = [ global.srcHtml,
-        thriftDir + '/gen-js/*.js', thriftDir + '/thrift.js' ]
-            .concat(srcJSFiles);
+        thriftDir + '/gen-js/*.js',
+        thriftDir + '/thrift.js' ].concat(srcJSFiles);
     localCopyFiles[deployDir + '/js/components/'] = [ componentsDir + '/**' ];
     localCopyFiles[deployDir + '/css/'] = [ local.cssOut ];
     localCopyFiles[deployDir + '/index.html'] = [ local.indexOut ];
@@ -73,138 +75,150 @@ module.exports = function(grunt) {
     distCopyFiles[deployDir + '/css/'] = distDir + '/css/*';
     distCopyFiles[deployDir + '/index.html'] = distDir + '/index.html';
 
+    var thriftFiles = [ thriftDir + '/ActivityService.thrift',
+        thriftDir + '/VideoService.thrift',
+        thriftDir + '/ReplayService.thrift',
+        thriftDir + '/UserService.thrift',
+        thriftDir + '/Errors.thrift' ];
+
     // Project configuration.
-    grunt
-            .initConfig({
-                clean : {
-                    target : targetDir,
-                    war : deployDir,
-                    instrument : 'src-cov',
-                    instrument_target : targetDir + '/src-cov'
-                },
+    grunt.initConfig({
+        clean : {
+            target : targetDir,
+            war : deployDir,
+            instrument : 'src-cov',
+            instrument_target : targetDir + '/src-cov'
+        },
 
-                lint : {
-                    all : [ 'grunt.js', testDir + '/*.js', testDir + '**/*.js' ]
-                            .concat(srcJSFiles)
-                },
+        lint : {
+            all : [ 'grunt.js', testDir + '/*.js', testDir + '**/*.js' ]
+                    .concat(srcJSFiles)
+        },
 
-                jshint : {
-                    options : {
-                        browser : true,
-                        laxbreak : true,
-                        curly : true,
-                        eqeqeq : true,
-                        immed : true,
-                        latedef : true,
-                        newcap : true,
-                        noarg : true,
-                        sub : true,
-                        boss : true,
-                        eqnull : true
-                    },
-                    globals : {
-                        jquery : true
-                    }
-                },
+        jshint : {
+            options : {
+                browser : true,
+                laxbreak : true,
+                curly : true,
+                eqeqeq : true,
+                immed : true,
+                latedef : true,
+                newcap : true,
+                noarg : true,
+                sub : true,
+                boss : true,
+                eqnull : true
+            },
+            globals : {
+                jquery : true
+            }
+        },
 
-                requirejs : {
-                    dist : {
-                        options : {
-                            include : configJS,
-                            baseUrl : srcDir,
-                            mainConfigFile : global.configJSFile,
-                            out : dist.jsOut,
-                            preserveLicenseComments : false
-                        }
-                    },
-                    amd : {
-                        options : {
-                            include : 'require.js',
-                            baseUrl : componentsDir + '/require',
-                            out : distDir + '/js/' + dist.requireJS,
-                            preserveLicenseComments : false
-                        }
-                    }
-                },
-
-                less : {
-                    local : {
-                        options : {
-                            paths : lessPaths
-                        },
-                        files : localLessFiles
-                    },
-                    dist : {
-                        options : {
-                            paths : lessPaths,
-                            compress : true
-                        },
-                        files : distLessFiles
-                    }
-                },
-
-                thrift : {
-                    files : [ thriftDir + '/ActivityService.thrift',
-                        thriftDir + '/VideoService.thrift',
-                        thriftDir + '/ReplayService.thrift',
-                        thriftDir + '/UserService.thrift',
-                        thriftDir + '/Errors.thrift' ],
-                    languages : [ 'js:jquery' ],
-                    out : thriftDir
-                },
-
-                cover : {
-                    compile : {
-                        files : {
-                            'target/src-cov/*.js' : srcJSFiles
-                        }
-                    }
-                },
-
-                mocha : {
-                    index : [ testDir + '/index.html' ]
-                },
-
-                copy : {
-                    instrument : {
-                        files : {
-                            'src-cov/' : 'target/src-cov/src/**',
-                            'src-cov/view/' : global.srcHtml,
-                            'src-cov/components/' : componentsDir + '/**',
-                            'src-cov/thrift/gen-js/' : thriftDir
-                                    + '/gen-js/*.js',
-                            'src-cov/thrift/thrift.js' : thriftDir
-                                    + '/thrift.js'
-                        }
-                    },
-                    local : {
-                        files : localCopyFiles
-                    },
-                    dist : {
-                        files : distCopyFiles
-                    }
-                },
-
-                // generate index.html
-                index : {
-                    local : {
-                        src : 'local-index.html',
-                        dest : local.indexOut,
-                        data : {
-                            css : 'optimized.css',
-                            js : 'config.js'
-                        }
-                    },
-                    dist : {
-                        src : 'prod-index.html',
-                        dest : dist.indexOut,
-                        data : {
-                            hash : hash,
-                            amd : dist.requireJS
-                        }
-                    }
+        requirejs : {
+            dist : {
+                options : {
+                    include : configJS,
+                    baseUrl : srcDir,
+                    mainConfigFile : global.configJSFile,
+                    out : dist.jsOut,
+                    preserveLicenseComments : false
                 }
-            });
+            },
+            amd : {
+                options : {
+                    include : 'require.js',
+                    baseUrl : componentsDir + '/require',
+                    out : distDir + '/js/' + dist.requireJS,
+                    preserveLicenseComments : false
+                }
+            }
+        },
+
+        less : {
+            local : {
+                options : {
+                    paths : lessPaths
+                },
+                files : localLessFiles
+            },
+            dist : {
+                options : {
+                    paths : lessPaths,
+                    compress : true
+                },
+                files : distLessFiles
+            }
+        },
+
+        thrift : {
+            js : {
+                files : thriftFiles,
+                languages : [ 'js:jquery' ],
+                out : thriftDir
+            },
+            java : {
+                files : thriftFiles,
+                languages : [ 'java' ],
+                out : targetDir
+            }
+        },
+
+        cover : {
+            compile : {
+                files : {
+                    'target/src-cov/*.js' : srcJSFiles
+                }
+            }
+        },
+
+        mocha : {
+            index : [ testDir + '/index.html' ]
+        },
+
+        copy : {
+            instrument : {
+                files : {
+                    'src-cov/' : 'target/src-cov/src/**',
+                    'src-cov/view/' : global.srcHtml,
+                    'src-cov/components/' : componentsDir + '/**',
+                    'src-cov/thrift/gen-js/' : thriftDir + '/gen-js/*.js',
+                    'src-cov/thrift/thrift.js' : thriftDir + '/thrift.js'
+                }
+            },
+            local : {
+                files : localCopyFiles
+            },
+            dist : {
+                files : distCopyFiles
+            },
+            thrift : {
+                files : {
+                    '../h-server/src/main/java/thrift/' : targetDir
+                            + '/gen-java/**/*.java'
+                }
+            }
+        },
+
+        // generate index.html
+        index : {
+            local : {
+                src : 'local-index.html',
+                dest : local.indexOut,
+                data : {
+                    css : 'optimized.css',
+                    js : 'config.js'
+                }
+            },
+            dist : {
+                src : 'prod-index.html',
+                dest : dist.indexOut,
+                data : {
+                    hash : hash,
+                    amd : dist.requireJS
+                }
+            }
+        }
+    });
 
     grunt.loadTasks('grunt-lib');
     grunt.loadNpmTasks('grunt-clean');
@@ -217,7 +231,9 @@ module.exports = function(grunt) {
     grunt.registerTask('instrument',
             'clean:instrument cover copy:instrument clean:instrument_target');
 
-    grunt.registerTask('test-cov', 'clean thrift lint instrument mocha');
+    grunt.registerTask('thrift-java', 'thrift:java copy:thrift');
+
+    grunt.registerTask('test-cov', 'clean thrift:all lint instrument mocha');
     grunt.registerTask('test', 'test-cov clean:instrument');
 
     grunt.registerTask('local', 'test-cov less:local index:local copy:local');

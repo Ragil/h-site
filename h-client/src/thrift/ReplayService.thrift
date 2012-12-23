@@ -3,6 +3,8 @@
  * @author Ragil Prasetya - praser05@gmail.com
  */
 
+namespace java main.java.thrift
+
 include "UserService.thrift"
 
 enum GameType {

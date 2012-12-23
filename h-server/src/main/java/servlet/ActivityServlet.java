@@ -1,4 +1,4 @@
-package src.main.java.servlet;
+package main.java.servlet;
 
 import javax.servlet.http.HttpServlet;
 

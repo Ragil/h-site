@@ -1,10 +1,10 @@
 module.exports = function(grunt) {
 
-    grunt.registerTask('thrift', 'Compiles thrift files', function() {
+    grunt.registerMultiTask('thrift', 'Compiles thrift files', function() {
 
-        var languages = grunt.config('thrift.languages');
-        var files = grunt.config('thrift.files');
-        var out = grunt.config('thrift.out');
+        var languages = this.data.languages;
+        var files = this.data.files;
+        var out = this.data.out;
 
         grunt.log.writeln('Thrift for ' + files);
 
@@ -35,7 +35,8 @@ module.exports = function(grunt) {
 
                 thrift.stderr.on('data', function(data) {
                     grunt.log.error('stderr : ' + data);
-                    grunt.warn(new Error('Cannot compile one or more thrift files.'));
+                    grunt.warn(new Error(
+                            'Cannot compile one or more thrift files.'));
                 });
 
                 thrift.on('exit', function(code) {
