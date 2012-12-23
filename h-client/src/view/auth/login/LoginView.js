@@ -1,9 +1,7 @@
 define(function(require) {
 
     var _ = require('underscore');
-    var eventBus = require('eventBus');
     var check = require('check');
-    var events = require('events');
     var Backbone = require('backbone');
     var userService = require('userService');
     var template = require('text!view/auth/login/LoginView.html');
@@ -55,7 +53,9 @@ define(function(require) {
         },
 
         displaySignupView : function(event) {
-            eventBus.trigger(events.AuthView.showSignup);
+            Backbone.history.navigate('profile/signup', {
+                trigger : true
+            });
         },
 
         displayProfile : function() {

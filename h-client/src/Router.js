@@ -23,6 +23,7 @@ define(function(require) {
             'replay' : 'replay',
             'replay/upload' : 'showUploadView',
             'profile/login' : 'login',
+            'profile/signup' : 'signup',
             'profile' : 'myaccount'
         },
 
@@ -49,6 +50,12 @@ define(function(require) {
 
         login : function() {
             this.mainView.setLayout(AuthView.getInstance());
+            AuthView.getInstance().displayLoginView();
+        },
+
+        signup : function() {
+            this.mainView.setLayout(AuthView.getInstance());
+            AuthView.getInstance().displaySignupView();
         },
 
         myaccount : function() {

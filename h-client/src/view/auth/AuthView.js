@@ -7,8 +7,6 @@ define(function(require) {
 
     var _ = require('underscore');
     var check = require('check');
-    var events = require('events');
-    var eventBus = require('eventBus');
     var Backbone = require('backbone');
     var HeaderView = require('view/header/HeaderView');
     var LoginView = require('view/auth/login/LoginView');
@@ -39,13 +37,15 @@ define(function(require) {
             this.$content.append(options.loginView.$el);
 
             options.headerView.setActiveView(HeaderView.VIEW.MYACCOUNT);
-
-            this.currentView = options.loginView;
-            eventBus.on(events.AuthView.showSignup, this.showSignup, this);
-            eventBus.on(events.AuthView.showLogin, this.showLogin, this);
+            this.displayProfileView();
         },
 
-        showLogin : function() {
+        displayProfileView : function() {
+            // TODO : check if the user is logged in and display profile if so
+            this.displayLoginView();
+        },
+
+        displayLoginView : function() {
             if (this.currentView !== this.loginView) {
                 this.$content.children().detach();
                 this.$content.append(this.loginView.$el);
@@ -53,7 +53,7 @@ define(function(require) {
             }
         },
 
-        showSignup : function() {
+        displaySignupView : function() {
             if (this.currentView !== this.signupView) {
                 this.$content.children().detach();
                 this.$content.append(this.signupView.$el);
@@ -62,8 +62,6 @@ define(function(require) {
         },
 
         remove : function() {
-            eventBus.off(events.AuthView.showSignup, null, this);
-            eventBus.off(events.AuthView.showLogin, null, this);
             this.headerView.remove();
             this.loginView.remove();
             this.signupView.remove();

@@ -11,8 +11,6 @@ define(function(require) {
     var HeaderView = require('view/header/HeaderView');
     var LoginView = require('view/auth/login/LoginView');
     var SignupView = require('view/auth/signup/SignupView');
-    var eventBus = require('eventBus');
-    var events = require('events');
 
     describe('AuthView', function() {
 
@@ -133,7 +131,7 @@ define(function(require) {
                 });
 
                 // tigger event
-                eventBus.trigger(events.AuthView.showSignup);
+                view.displaySignupView();
 
                 // verify the current view
                 expect(view.currentView).to.be(signupView);
@@ -157,8 +155,8 @@ define(function(require) {
                 });
 
                 // tigger event
-                eventBus.trigger(events.AuthView.showSignup);
-                eventBus.trigger(events.AuthView.showLogin);
+                view.displaySignupView();
+                view.displayLoginView();
 
                 // verify the current view
                 expect(view.currentView).to.be(loginView);

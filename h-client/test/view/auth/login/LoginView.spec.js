@@ -1,9 +1,8 @@
 define(function(require) {
 
     require('sinon');
+    var Backbone = require('backbone');
     var userService = require('userService');
-    var eventBus = require('eventBus');
-    var events = require('events');
     var LoginView = require('view/auth/login/LoginView');
 
     describe('Login', function() {
@@ -112,23 +111,23 @@ define(function(require) {
 
         describe('displaySignupView', function() {
 
-            it('should trigger event.AuthView.showSignup', function() {
-                // listen to event
-                var triggered = 0;
-                eventBus.on(events.AuthView.showSignup, function() {
-                    triggered++;
-                }, this);
+            it('should navigate to profile/signup', function() {
+                // listen to navigation
+                var spy = sinon.stub(Backbone.history, 'navigate');
 
                 // create view and trigger displaySignupView
                 var view = new LoginView();
                 view.$('.signUpBtn').click();
 
                 // verify events
-                expect(triggered).to.be(1);
+                expect(spy.callCount).to.be(1);
+                var args = spy.firstCall.args;
+                expect(args[0]).to.be('profile/signup');
+                expect(args[1].trigger).to.be(true);
 
                 // clean up
                 view.remove();
-                eventBus.off(events.AuthView.showSignup, null, this);
+                spy.restore();
             });
 
         });

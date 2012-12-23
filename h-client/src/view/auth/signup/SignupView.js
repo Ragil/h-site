@@ -53,7 +53,9 @@ define(function(require) {
         },
 
         displayLoginView : function(event) {
-            eventBus.trigger(events.AuthView.showLogin);
+            Backbone.history.navigate('profile/login', {
+                trigger : true
+            });
         },
 
         // Returns true iff all required user information are provided. Mark any
