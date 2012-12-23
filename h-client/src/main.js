@@ -13,7 +13,6 @@ define(function(require) {
         new Router();
         Backbone.history.start({
             pushState : true,
-            hashChange : false,
             root : '/app/'
         });
     });

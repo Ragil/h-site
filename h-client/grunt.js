@@ -233,7 +233,7 @@ module.exports = function(grunt) {
 
     grunt.registerTask('thrift-java', 'thrift:java copy:thrift');
 
-    grunt.registerTask('test-cov', 'clean thrift:all lint instrument mocha');
+    grunt.registerTask('test-cov', 'clean thrift:js lint instrument mocha');
     grunt.registerTask('test', 'test-cov clean:instrument');
 
     grunt.registerTask('local', 'test-cov less:local index:local copy:local');
