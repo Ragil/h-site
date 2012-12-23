@@ -2,6 +2,8 @@ define(function(require) {
 
     require('sinon');
     var userService = require('userService');
+    var eventBus = require('eventBus');
+    var events = require('events');
     var LoginView = require('view/auth/login/LoginView');
 
     describe('Login', function() {
@@ -104,6 +106,29 @@ define(function(require) {
                     view.remove();
                 });
 
+            });
+
+        });
+
+        describe('displaySignupView', function() {
+
+            it('should trigger event.AuthView.showSignup', function() {
+                // listen to event
+                var triggered = 0;
+                eventBus.on(events.AuthView.showSignup, function() {
+                    triggered++;
+                }, this);
+
+                // create view and trigger displaySignupView
+                var view = new LoginView();
+                view.$('.signUpBtn').click();
+
+                // verify events
+                expect(triggered).to.be(1);
+
+                // clean up
+                view.remove();
+                eventBus.off(events.AuthView.showSignup, null, this);
             });
 
         });

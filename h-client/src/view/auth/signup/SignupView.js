@@ -1,9 +1,11 @@
 define(function(require) {
 
     var _ = require('underscore');
+    var eventBus = require('eventBus');
     var check = require('check');
     var Backbone = require('backbone');
     var userService = require('userService');
+    var events = require('events');
     var template = require('text!view/auth/signup/SignupView.html');
     require('thrift/UserService_types');
 
@@ -12,7 +14,8 @@ define(function(require) {
         className : 'signupView',
 
         events : {
-            'click .signupBtn' : 'signup'
+            'click .signupBtn' : 'signup',
+            'click .loginBtn' : 'displayLoginView'
         },
 
         initialize : function(options) {
@@ -32,7 +35,6 @@ define(function(require) {
         },
 
         signup : function(event) {
-            event.preventDefault();
             if (this.verify()) {
                 userService.signup(this.$inputEmail.val(), this.$inputPassword
                         .val(), new User({
@@ -48,6 +50,10 @@ define(function(require) {
 
         displayCheckEmail : function() {
         // TODO : display check verify email
+        },
+
+        displayLoginView : function(event) {
+            eventBus.trigger(events.AuthView.showLogin);
         },
 
         // Returns true iff all required user information are provided. Mark any

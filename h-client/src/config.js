@@ -20,6 +20,7 @@ require.config({
         // frequently used components
         eventBus : "util/eventBus",
         check : 'util/check',
+        events : 'util/events',
 
         // services
         videoService : 'service/videoService',

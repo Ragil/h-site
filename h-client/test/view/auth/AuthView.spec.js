@@ -6,11 +6,31 @@
 define(function(require) {
 
     require('sinon');
+    var check = require('check');
     var AuthView = require('view/auth/AuthView');
     var HeaderView = require('view/header/HeaderView');
     var LoginView = require('view/auth/login/LoginView');
+    var SignupView = require('view/auth/signup/SignupView');
+    var eventBus = require('eventBus');
+    var events = require('events');
 
     describe('AuthView', function() {
+
+        var loginView = null;
+        var signupView = null;
+        var headerView = null;
+
+        beforeEach(function() {
+            loginView = new LoginView();
+            signupView = new SignupView();
+            headerView = new HeaderView();
+        });
+
+        afterEach(function() {
+            loginView.remove();
+            signupView.remove();
+            headerView.remove();
+        });
 
         describe('constructor', function() {
 
@@ -30,16 +50,23 @@ define(function(require) {
                 }).to.throwException();
             });
 
+            it('should throw exception without signupView', function() {
+                expect(function() {
+                    new AuthView({
+                        signupView : null
+                    });
+                }).to.throwException();
+            });
+
             it('should inject sub-views given all params', function() {
                 var view = null;
-                var headerView = HeaderView.getInstance();
-                var loginView = new LoginView();
 
                 // verify
                 expect(function() {
                     view = new AuthView({
                         headerView : headerView,
-                        loginView : loginView
+                        loginView : loginView,
+                        signupView : signupView
                     });
                 }).not.to.throwException();
 
@@ -49,15 +76,11 @@ define(function(require) {
                         .be(loginView.$el.html());
 
                 // clean up
-                headerView.remove();
-                loginView.remove();
                 view.remove();
             });
 
             it('should setActiveView to MYACCOUNT', function() {
                 var view = null;
-                var headerView = HeaderView.getInstance();
-                var loginView = new LoginView();
 
                 // listen to headerView setActive
                 var spy = sinon.stub(headerView, 'setActiveView');
@@ -66,7 +89,8 @@ define(function(require) {
                 expect(function() {
                     view = new AuthView({
                         headerView : headerView,
-                        loginView : loginView
+                        loginView : loginView,
+                        signupView : signupView
                     });
                 }).not.to.throwException();
 
@@ -76,8 +100,6 @@ define(function(require) {
 
                 // clean up
                 spy.restore();
-                headerView.remove();
-                loginView.remove();
                 view.remove();
             });
 
@@ -96,6 +118,55 @@ define(function(require) {
                 // clean up
                 view1.remove();
                 view2.remove();
+            });
+
+        });
+
+        describe('eventBus(events.AuthView.showSignup)', function() {
+
+            it('should set the content to signupView', function() {
+                // create view
+                var view = new AuthView({
+                    headerView : headerView,
+                    signupView : signupView,
+                    loginView : loginView
+                });
+
+                // tigger event
+                eventBus.trigger(events.AuthView.showSignup);
+
+                // verify the current view
+                expect(view.currentView).to.be(signupView);
+                expect(view.$('.content').children().html()).to
+                        .be(signupView.$el.html());
+
+                // clean up
+                view.remove();
+            });
+
+        });
+
+        describe('eventBus(events.AuthView.showLogin)', function() {
+
+            it('should set the content to loginView', function() {
+                // create view
+                var view = new AuthView({
+                    headerView : headerView,
+                    signupView : signupView,
+                    loginView : loginView
+                });
+
+                // tigger event
+                eventBus.trigger(events.AuthView.showSignup);
+                eventBus.trigger(events.AuthView.showLogin);
+
+                // verify the current view
+                expect(view.currentView).to.be(loginView);
+                expect(view.$('.content').children().html()).to
+                        .be(loginView.$el.html());
+
+                // clean up
+                view.remove();
             });
 
         });

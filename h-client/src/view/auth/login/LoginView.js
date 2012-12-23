@@ -1,7 +1,9 @@
 define(function(require) {
 
     var _ = require('underscore');
+    var eventBus = require('eventBus');
     var check = require('check');
+    var events = require('events');
     var Backbone = require('backbone');
     var userService = require('userService');
     var template = require('text!view/auth/login/LoginView.html');
@@ -11,7 +13,8 @@ define(function(require) {
         className : 'loginView',
 
         events : {
-            'click .signInBtn' : 'signIn'
+            'click .signInBtn' : 'signIn',
+            'click .signUpBtn' : 'displaySignupView'
         },
 
         initialize : function(options) {
@@ -27,7 +30,6 @@ define(function(require) {
         },
 
         signIn : function(event) {
-            event.preventDefault();
             this.clearErrorMessage();
 
             var email = this.$inputEmail.val();
@@ -44,11 +46,16 @@ define(function(require) {
 
             if (valid) {
                 // make a service call
-                userService.login(email, pass, _.bind(this.displayProfile, this),
-                        _.bind(this.invalidLogin, this));
+                userService.login(email, pass, _
+                        .bind(this.displayProfile, this), _.bind(
+                        this.invalidLogin, this));
             } else {
                 this.notEnoughInfo();
             }
+        },
+
+        displaySignupView : function(event) {
+            eventBus.trigger(events.AuthView.showSignup);
         },
 
         displayProfile : function() {
