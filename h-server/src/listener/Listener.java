@@ -1,6 +1,6 @@
-package main.java.listener;
+package listener;
 
-import main.java.servlet.ActivityServlet;
+import servlet.ActivityServlet;
 
 import com.google.inject.Guice;
 import com.google.inject.Injector;

@@ -3,7 +3,7 @@
  * @author Ragil Prasetya - praser05@gmail.com
  */
 
-namespace java main.java.thrift
+namespace java thrift
 
 struct YoutubeVideo  {
     // next number 3

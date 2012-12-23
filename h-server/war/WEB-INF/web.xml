@@ -25,7 +25,7 @@
 	</filter-mapping>
 
 	<listener>
-		<listener-class>src.main.java.listener.Listener</listener-class>
+		<listener-class>listener.Listener</listener-class>
 	</listener>
 
 	<servlet>

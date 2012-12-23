@@ -193,7 +193,7 @@ module.exports = function(grunt) {
             },
             thrift : {
                 files : {
-                    '../h-server/src/main/java/thrift/' : targetDir
+                    '../h-server/src/thrift/' : targetDir
                             + '/gen-java/**/*.java'
                 }
             }

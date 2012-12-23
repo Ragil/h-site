@@ -3,14 +3,14 @@
  * @author Ragil Prasetya - praser05@gmail.com
  */
 
-namespace java main.java.thrift
+namespace java thrift
 
 include "Errors.thrift"
 
 struct User {
     // next number 3
 
-    1: optional string id;
+    1: optional string email;
     2: optional string name;
     3: optional string nickname;
 }

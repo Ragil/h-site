@@ -26,7 +26,7 @@ define(function(require) {
                         title : 'title',
                         description : 'description',
                         uploader : new User({
-                            id : 'user1',
+                            email : 'user1@gmail.com',
                             name : 'name1'
                         }),
                         gameType : GameType.ONE_V_ONE
@@ -51,7 +51,7 @@ define(function(require) {
                 expect(model.get('created_ts')).to.be(1);
                 expect(model.get('title')).to.be('title');
                 expect(model.get('description')).to.be('description');
-                expect(model.get('uploader').id).to.be('user1');
+                expect(model.get('uploader').email).to.be('user1@gmail.com');
                 expect(model.get('uploader').name).to.be('name1');
                 expect(model.get('gameType')).to.be(GameType.ONE_V_ONE);
 

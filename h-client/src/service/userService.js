@@ -11,11 +11,11 @@ define(function(require) {
 
     var createFakeUser = function(options) {
         options = options || {};
-        options.id = options.id || 1;
+        options.email = options.email || 'user@email.com';
         options.name = options.name || 'Husky';
 
         return new User({
-            id : options.id,
+            email : options.email,
             name : options.name
         });
     };

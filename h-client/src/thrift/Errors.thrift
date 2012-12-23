@@ -3,10 +3,12 @@
  * @author Ragil Prasetya - praser05@gmail.com
  */
 
-namespace java main.java.thrift
+namespace java thrift
 
 enum ErrorType {
-    INVALID_PARAM = 1
+    INVALID_PARAM = 1,
+    INVALID_REQUEST = 2,
+    UNKNOWN_ERROR = 3
 }
 
 exception HException {

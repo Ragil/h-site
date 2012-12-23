@@ -12,5 +12,7 @@
 		<dependency org="com.googlecode.objectify" name="objectify"
 			rev="4.0b1" />
 		<dependency org="org.tuckey" name="urlrewritefilter" rev="4.0.3" />
+		<dependency org="junit" name="junit" rev="4.10" />
+		<dependency org="org.mockito" name="mockito-all" rev="1.9.5" />
 	</dependencies>
 </ivy-module>
